@@ -43,20 +43,26 @@
 .Container  
   max-width: 1040px
   padding: 50px
-  margin-right: auto
-  margin-left: auto
+  margin: 0 auto  
   display: flex
   flex-direction: row
-
+  @media screen and (max-width: 991px)
+    padding: 40px 0 20px 0
+    max-width: 720px
+    flex-wrap: wrap
+    flex-direction: column-reverse
+    align-items: center
 
 .left
-  max-width: 490px
-  text-align: left 
-  box-sizing: border-box
   display: flex
+  max-width: 490px
   flex-direction: column
   align-items: start
-  
+  text-align: left
+  @media screen and (max-width: 991px)
+    width: 100%
+    align-items: center
+    text-align: center
 
 
 
@@ -71,14 +77,13 @@
   margin-bottom: 0.5rem 
   font-family: "Product Sans", sans-serif
   letter-spacing: 0.6px
-  margin: 0 auto 10px 0
+  
 
 .headerContainer
   font-size: 40px
-  max-width: 100%  
   color: #19184A
   font-weight: 700
-  margin: 0 auto 10px 0
+  
 
 .innerText
   color: rgba(25, 24, 74, 0.5)
@@ -87,19 +92,19 @@
   line-height: 1.5
 
 .right
-    max-width: 450px 
+  max-width: 450px 
 
 .btn
   display: inline-flex
   align-items: center
+  justify-content: start 
   background-color: #3D57D5
   color: white
   font-size: 16px
   font-weight: 700
   padding: 10px
-  justify-content: start 
+  border: none
   border-radius: 8px
-  // width: 150px
   cursor: pointer
   &::before 
     display: inline-block
@@ -128,6 +133,8 @@
   justify-content: center
   align-items: center
   flex-direction: column
+  @media screen and (max-width: 991px)
+    flex-wrap: wrap
 
 .servesContainerHeader
   color: #377dff
@@ -150,6 +157,9 @@
   display: flex
   flex-direction: row
   align-items: stretch
+  @media screen and (max-width: 991px)
+    flex-wrap: wrap
+  
 
 
 .servesContainerListItem
@@ -162,6 +172,11 @@
   box-shadow: 0 16px 32px rgb(0 0 0 / .04)
   border-radius: 24px
   text-align: start
+  @media screen and (max-width: 991px)
+    max-width: 45% 
+    text-align: center
+  @media screen and (max-width: 795px)
+    max-width: 100% 
   p
     color: #828282  
     margin-bottom: 3rem
@@ -183,6 +198,7 @@
   color: #fff
   font-weight: 700
   padding: 13px 50px 13px 5px
+  border: none
   transition: all ease 0.3s
   position: relative
   &::after 
@@ -196,6 +212,8 @@
     transform: rotate(-45deg)
     top: 10px 
     right: 20px
+  @media screen and (max-width: 991px)
+    align-self: center  
     
     
 
@@ -237,8 +255,9 @@
 .containerStepList
   display: flex
   flex-direction: row
-  
   justify-content: center
+  @media screen and (max-width: 991px)
+    flex-wrap: wrap
   
   
 .stepItem
@@ -254,7 +273,11 @@
   color: #343434
   max-width: 100%
   position: relative
- 
+  @media screen and (max-width: 991px)
+    min-width: 45% 
+    // align-items: center
+  @media screen and (max-width: 680px)
+    min-width: 100% 
 
   span
     
@@ -342,6 +365,9 @@
   border-radius: 16px
   transition: all ease 0.5s
   margin: 0 0 16px 0
+  &:hover
+      background-color: rgba(48, 125, 246, .1)
+      border:1px solid blue
   p
     font-size: 20px
     font-weight: 700
@@ -351,6 +377,18 @@
     cursor: pointer
     transition: all ease 0.5s
     border-radius: 16px
+    position: relative
+      
+    &::after 
+      display: block
+      content: ""
+      background: url("../../../public/staticImages/plus.svg")
+      width: 28px
+      height: 28px
+      position: absolute
+      z-index: 99
+      right:5px
+      top:20px  
     
     
 .lauchingListItemHide    
