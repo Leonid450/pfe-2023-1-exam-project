@@ -213,4 +213,7 @@ export default {
       )
       .required('required'),
   }),
+  EventSchema: yup.object({
+    text: yup.string().min(3).required('required'),
+  }),
 };
