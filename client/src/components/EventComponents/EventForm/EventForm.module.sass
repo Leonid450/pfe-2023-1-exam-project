@@ -1,0 +1,117 @@
+.background 
+  position: absolute
+  top:1px
+  right: 1px 
+  width: 100vw
+  height: 100vh
+  z-index: 100
+  background-color: #333333cb
+ 
+  
+
+
+.modalWindow 
+  position: fixed
+  color: #40478dcb 
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  text-align: center
+  // max-width: 700px
+  padding: 30px 20px
+  background-color: white
+  z-index: 102
+  border-radius: 10px
+  font-weight: 900
+  @media screen and (max-width: 670px)
+    width:100vw
+    
+    
+ 
+
+.form 
+  display: flex
+  flex-direction: column
+  // gap: 10px
+  width:40vw
+  border: 2px solid #28d2d0
+  padding: 20px
+  border-radius: 15px
+  margin: 10px auto
+  @media screen and (max-width: 670px)
+    width:90vw
+
+.input 
+  padding: 5px 10px
+  border-radius: 10px
+  border: 2px solid #28d2d0
+  margin: 5px
+
+
+  &Container 
+    display: flex
+    justify-content: space-between
+    align-items: center
+    gap: 10px
+    @media screen and (max-width: 1200px)
+      flex-wrap: wrap
+      align-items: center
+  
+.inputText
+  height: 15vh
+  width: 100%
+  padding: 5px 10px
+  border-radius: 10px
+  border: 2px solid #28d2d0
+  overflow: scroll
+  float: left
+  
+
+.label, .textRemind
+  font-weight: bold
+  text-align: center
+  padding: 5px
+
+.textRemind
+  border-top: 2px solid #28d2d0
+
+.error 
+  color: crimson
+  padding: 5px
+  background-color: aliceblue
+  border-radius: 10px
+  font-size: 1rem
+  border: 2px solid
+
+.dateContainer
+  display: flex
+  justify-content: space-around
+  // flex-direction: column
+
+.submitContainer
+  text-align: center
+  background: #FFFFFF
+  padding: 10px 30px
+  border: 2px solid #28d2d0
+  color: #28d2d0
+  border-radius: 5px
+  font-size: 14px
+  font-weight: 400
+  margin: 0 10px
+  &:hover
+    color: white
+    background-color: #28d2d0
+
+.closeContainer      
+  text-align: center
+  background: #FFFFFF
+  padding: 10px 30px
+  border: 2px solid #e7354d
+  color:#e7354d
+  border-radius: 5px
+  font-size: 14px
+  font-weight: 400
+  margin: 0 10px
+  &:hover
+    color: white
+    background-color: #e7354d

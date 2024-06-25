@@ -3,29 +3,27 @@ import styles from './EventList.module.sass';
 import { connect } from 'react-redux';
 import EventTimer from '../eventTimer';
 
-// import EventItem from './EventItem';
 const EventList = ({ events }) => {
-  // handleDeleteClick();
   const eventItems = events.map((event) => (
-    <div className={styles.eventItem}>
-      <p>{event.text}</p>
-      <div>
-        Date:
-        {event.date}, Time:
-        {event.time}
-      </div>
-      <div></div>
-      <EventTimer date={new Date(`${event.date}T${event.time}`)} />
-
-      <button>
-        <p>Delete</p>
-      </button>
-    </div>
+    <EventItems key={event.id} event={event} />
   ));
-  // const dateN = events.map((event) => {event.date + event.time});
+  // handleDeleteClick();
 
-  return <section className={styles.eventList}>{eventItems}</section>;
+  return <ul className={styles.eventList}>{eventItems}</ul>;
 };
+
+function EventItems({ event }) {
+  return (
+    <li className={styles.eventItem}>
+      <p className={styles.eventText}>{event.text}</p>
+      <div>
+        <EventTimer date={new Date(`${event.date}T${event.time}`)} />
+        <button className={styles.eventDelete}>Delete</button>
+      </div>
+    </li>
+  );
+}
+
 const mStP = (state) => ({
   events: state.event.event,
 });

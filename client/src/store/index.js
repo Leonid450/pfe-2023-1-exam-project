@@ -11,7 +11,7 @@ const eventMiddleware = ({ getState }) => {
 };
 const reHydrateStore = () => {
   if (localStorage.getItem('eventData') !== null) {
-    return JSON.parse(localStorage.getItem('eventData')); // re-hydrate the store
+    return JSON.parse(localStorage.getItem('eventData'));
   }
 };
 

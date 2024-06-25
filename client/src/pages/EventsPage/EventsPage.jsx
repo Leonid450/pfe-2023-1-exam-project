@@ -7,28 +7,16 @@ import styles from './EventsPage.module.sass';
 import Spinner from '../../components/Spinner/Spinner';
 import EventForm from '../../components/EventComponents/EventForm/EventForm';
 import EventList from '../../components/EventComponents/EventList/EventList';
-
-const events = [
-  {
-    text: 'some new event',
-    date: '12.12.2012',
-    time: '15:30',
-  },
-  {
-    text: 'some new event 2',
-    date: '12.12.2012',
-    time: '15:30',
-  },
-];
+import CONSTANTS from '../../constants';
 const Events = (props) => {
   const { isFetching } = props;
-  // const [events, setEvents] = useState([]);
-
-  // useEffect(() => {
-  //   getUsers().then((response) => {
-  //     setUsers(response.data.data);
-  //   });
-  // }, []);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleAddEvent = () => {
+    setIsModalVisible(true);
+  };
+  // const closeModal = (e) => {
+  //   setIsModalVisible(false);
+  // };
 
   return (
     <>
@@ -43,24 +31,33 @@ const Events = (props) => {
                 <div className={styles.eventHeader}>
                   <h2>Live upcomming checks</h2>
                   <div className={styles.eventHeaderIcon}>
-                    <p>remaining time</p>
-                    <img src="" alt="" />
+                    <p>Remaining time</p>
+                    <img
+                      src={`${CONSTANTS.STATIC_IMAGES_PATH}clock-time-eight-outline.svg`}
+                      alt="menu"
+                    />
                   </div>
                 </div>
-                <EventList events={events} />
-
-                {/* <div className={styles.eventList}>
-                  <div className={styles.eventItem}>
-                    <p>some event</p>
-                  </div>
-                  <div className={styles.eventItem}>
-                    <p>some other event</p>
-                  </div>
-                </div> */}
+                <EventList />
               </div>
             </article>
+            <aside>
+              <button
+                className={styles.eventCreateButton}
+                onClick={handleAddEvent}
+              >
+                Add event
+              </button>
+            </aside>
           </div>
-          <EventForm />
+          {isModalVisible && (
+            <EventForm
+              closeModal={(e) => {
+                setIsModalVisible(false);
+              }}
+            />
+          )}
+
           <Footer />
         </>
       )}
