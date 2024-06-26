@@ -7,7 +7,10 @@ import styles from './EventForm.module.sass';
 
 const EventForm = ({ createNewEvent, closeModal }) => {
   const handleSubmit = (values, formikBag) => {
-    const newValues = { ...values, id: Date.now() };
+    console.log(values);
+    const { time, date, ...rest } = values;
+    const dateN = new Date(`${date}T${time}`);
+    const newValues = { ...rest, id: Date.now(), dateN };
     createNewEvent(newValues);
 
     formikBag.resetForm();

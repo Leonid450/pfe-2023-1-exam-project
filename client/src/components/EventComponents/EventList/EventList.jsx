@@ -2,23 +2,44 @@ import React from 'react';
 import styles from './EventList.module.sass';
 import { connect } from 'react-redux';
 import EventTimer from '../eventTimer';
+import { deleteEvent } from '../../../store/slices/eventSlice';
+const { useState } = React;
 
-const EventList = ({ events }) => {
+const EventList = ({ deleteEvent, events }) => {
+  // events.sort(function (a, b) {
+  //   if (a. > b.name) {
+  //     return 1;
+  //   }
+  //   if (a.name < b.name) {
+  //     return -1;
+  //   }
+  //   return 0;
+  // });
   const eventItems = events.map((event) => (
-    <EventItems key={event.id} event={event} />
+    <EventItems key={event.id} event={event} deleteEvent={deleteEvent} />
   ));
-  // handleDeleteClick();
-
   return <ul className={styles.eventList}>{eventItems}</ul>;
 };
 
-function EventItems({ event }) {
+function EventItems({ event, deleteEvent }) {
+  const handleDeleteClick = () => {
+    deleteEvent(event.id);
+  };
+  const [a, setA] = useState(1);
+  const left = (a) => {
+    a > 1 ? setA(a) : setA(1);
+  };
+
+  const s = `linear-gradient(90deg, rgba(21,236,170,0.648879620207458) ${a}%, rgba(218,218,218,1) ${a}%)`;
+
   return (
-    <li className={styles.eventItem}>
+    <li style={{ background: s }} className={styles.eventItem}>
       <p className={styles.eventText}>{event.text}</p>
-      <div>
-        <EventTimer date={new Date(`${event.date}T${event.time}`)} />
-        <button className={styles.eventDelete}>Delete</button>
+      <div className={styles.eventTime}>
+        <EventTimer left={left} date={event.dateN} startDate={event.id} />
+        <button onClick={handleDeleteClick} className={styles.eventDelete}>
+          Delete
+        </button>
       </div>
     </li>
   );
@@ -27,4 +48,7 @@ function EventItems({ event }) {
 const mStP = (state) => ({
   events: state.event.event,
 });
-export default connect(mStP, null)(EventList);
+const mDtp = (dispatch) => ({
+  deleteEvent: (values) => dispatch(deleteEvent(values)),
+});
+export default connect(mStP, mDtp)(EventList);
