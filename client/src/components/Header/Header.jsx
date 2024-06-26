@@ -6,6 +6,7 @@ import CONSTANTS from '../../constants';
 import { clearUserStore } from '../../store/slices/userSlice';
 import { getUser } from '../../store/slices/userSlice';
 
+import Reminder from '.././Reminder/Reminder';
 class Header extends React.Component {
   componentDidMount() {
     if (!this.props.data) {
@@ -83,6 +84,9 @@ class Header extends React.Component {
             className={styles.emailIcon}
             alt="email"
           />
+          <div>
+            <Reminder />
+          </div>
         </>
       );
     }

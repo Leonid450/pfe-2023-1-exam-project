@@ -7,7 +7,6 @@ import styles from './EventForm.module.sass';
 
 const EventForm = ({ createNewEvent, closeModal }) => {
   const handleSubmit = (values, formikBag) => {
-    console.log(values);
     const { time, date, ...rest } = values;
     const dateN = new Date(`${date}T${time}`);
     const newValues = { ...rest, id: Date.now(), dateN };
@@ -62,11 +61,7 @@ const EventForm = ({ createNewEvent, closeModal }) => {
                   className={styles.input}
                 />
               </div>
-              <ErrorMessage
-                name="date"
-                component="div"
-                className={styles.error}
-              />
+
               <div className={styles.inputContainer}>
                 <label htmlFor="date" className={styles.label}>
                   Point your event`s time
@@ -76,6 +71,19 @@ const EventForm = ({ createNewEvent, closeModal }) => {
                   type="time"
                   label="time"
                   className={styles.input}
+                />
+              </div>
+              <div className={styles.errorContainer}>
+                {' '}
+                <ErrorMessage
+                  name="date"
+                  component="div"
+                  className={styles.error}
+                />
+                <ErrorMessage
+                  name="time"
+                  component="div"
+                  className={styles.error}
                 />
               </div>
               <ErrorMessage
@@ -96,7 +104,7 @@ const EventForm = ({ createNewEvent, closeModal }) => {
                 />
               </div>
               <ErrorMessage
-                name="date"
+                name="dateRemind"
                 component="div"
                 className={styles.error}
               />

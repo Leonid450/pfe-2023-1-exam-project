@@ -6,15 +6,6 @@ import { deleteEvent } from '../../../store/slices/eventSlice';
 const { useState } = React;
 
 const EventList = ({ deleteEvent, events }) => {
-  // events.sort(function (a, b) {
-  //   if (a. > b.name) {
-  //     return 1;
-  //   }
-  //   if (a.name < b.name) {
-  //     return -1;
-  //   }
-  //   return 0;
-  // });
   const eventItems = events.map((event) => (
     <EventItems key={event.id} event={event} deleteEvent={deleteEvent} />
   ));

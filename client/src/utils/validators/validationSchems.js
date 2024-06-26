@@ -215,5 +215,6 @@ export default {
   }),
   EventSchema: yup.object({
     text: yup.string().min(3).required('required'),
+    date: yup.date().min(new Date(), 'Incorrect date').required('required'),
   }),
 };
