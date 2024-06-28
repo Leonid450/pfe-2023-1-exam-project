@@ -3,10 +3,16 @@ import styles from './EventList.module.sass';
 import { connect } from 'react-redux';
 import EventTimer from '../eventTimer';
 import { deleteEvent } from '../../../store/slices/eventSlice';
-const { useState } = React;
+const { useState, useEffect } = React;
 
 const EventList = ({ deleteEvent, events }) => {
-  const eventItems = events.map((event) => (
+  const eventsSorted = events.toSorted((a, b) => {
+    if (a.dateN > b.dateN) return 1;
+    if (a.dateN < b.dateN) return -1;
+    return 0;
+  });
+
+  const eventItems = eventsSorted.map((event) => (
     <EventItems key={event.id} event={event} deleteEvent={deleteEvent} />
   ));
   return <ul className={styles.eventList}>{eventItems}</ul>;

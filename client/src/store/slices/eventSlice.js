@@ -9,11 +9,6 @@ const eventSlice = createSlice({
   reducers: {
     createEvent: (state, action) => {
       state.event = [action.payload, ...state.event];
-      state.event.sort((a, b) => {
-        if (a.dateN > b.dateN) return 1;
-        if (a.dateN < b.dateN) return -1;
-        return 0;
-      });
     },
     deleteEvent: (state, action) => {
       state.event = [

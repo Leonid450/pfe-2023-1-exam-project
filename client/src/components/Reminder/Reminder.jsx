@@ -22,11 +22,13 @@ const Reminder = ({ events }) => {
 
   return (
     <div className={styles.remindConteiner}>
-      <img
-        src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-text-outline.svg`}
-        alt="calendar-text-outline"
-      />
-      <div>{'0' && sum}</div>
+      <Link to="./events">
+        <img
+          src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-text-outline.svg`}
+          alt="calendar-text-outline"
+        />
+        <div>{'0' && sum}</div>
+      </Link>
     </div>
   );
 };
