@@ -18,6 +18,7 @@ const variableOptions = {
   [CONSTANTS.NAME_CONTEST]: {
     styleName: '',
     typeOfName: '',
+    domain: '',
   },
   [CONSTANTS.LOGO_CONTEST]: {
     nameVenture: '',

@@ -1,5 +1,5 @@
 import { Field, Form, Formik, ErrorMessage } from 'formik';
-import React, { Component } from 'react';
+import React from 'react';
 import Schems from '../../../utils/validators/validationSchems';
 import { createEvent } from '../../../store/slices/eventSlice';
 import { connect } from 'react-redux';
