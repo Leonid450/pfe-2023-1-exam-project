@@ -1,6 +1,6 @@
 CREATE TABLE catalogs(
   id SERIAL PRIMARY KEY,
-  userId INT NOT NULL REFERENCES "Users" (id),
+  userId INT  REFERENCES "Users" (id),
   catalogName VARCHAR(160) NOT NULL,
   chats  INT NOT NULL REFERENCES conversations (id)
   
@@ -18,6 +18,20 @@ CREATE TABLE conversations (
 
 
 );
+
+CREATE TABLE users_to_conversation(
+  userId INT NOT NULL REFERENCES "Users" (id),
+  conversationId INT NOT NULL REFERENCES conversations (id),
+  PRIMARY KEY( userId, conversationId)
+);
+CREATE TABLE catalog_to_conversation(
+  catalogId INT NOT NULL REFERENCES catalogs (id),
+  conversationId INT NOT NULL REFERENCES conversations (id),
+  PRIMARY KEY( catalogId, conversationId)
+);
+
+
+
 CREATE TABLE messages (
   id SERIAL PRIMARY KEY,
   sender INT NOT NULL REFERENCES "Users" (id),
