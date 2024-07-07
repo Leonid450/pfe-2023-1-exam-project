@@ -1,9 +1,10 @@
+--Task 9--------------
 SELECT role, COUNT(role)
 FROM "Users"
 GROUP BY role;
 
 
-
+-----------------Task 10------------------
 CREATE TABLE transactions(
   id SERIAL PRIMARY KEY,
   "userId" INT NOT NULL REFERENCES "Users" (id),
@@ -33,4 +34,16 @@ GROUP BY id)
 UPDATE "Users"
 SET balance = balance_bonus FROM new_table_2
 WHERE role = 'customer' AND "Users".id =  new_table_2.id;
+
+------------Task 11-------------------
+WITH new_table AS(SELECT id AS best_id
+FROM "Users"
+ORDER BY rating DESC
+limit 3
+)
+UPDATE "Users"
+SET  balance = balance + 10
+FROM new_table
+WHERE role = 'creator' AND id = best_id ;
+
 
