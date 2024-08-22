@@ -60,7 +60,10 @@ module.exports.getContestById = async (req, res, next) => {
         {
           model: db.Offer,
           required: false,
-          where: role === CONSTANTS.CREATOR ? { userId } : {},
+          where:
+            role === CONSTANTS.CREATOR
+              ? { userId, moderation: 'allowed' }
+              : { moderation: 'allowed' },
           attributes: { exclude: ['userId', 'contestId'] },
           include: [
             {
@@ -269,6 +272,7 @@ module.exports.getCustomersContests = (req, res, next) => {
     include: [
       {
         model: db.Offer,
+        where: { moderation: 'allowed' },
         required: false,
         attributes: ['id'],
       },

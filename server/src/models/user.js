@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const CONSTANTS = require('../constants');
 
 async function hashPassword(user, options) {
-  console.log(user.password);
   if (user.changed('password')) {
     const passwordHash = await bcrypt.hash(
       user.password,
