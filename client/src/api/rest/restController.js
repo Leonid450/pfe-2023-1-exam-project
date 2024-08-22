@@ -61,3 +61,7 @@ export const getActiveContests = ({
   });
 
 export const getContestById = (data) => http.get(`contests/${data.contestId}`);
+export const setModerationStatusOfOffers = (data) =>
+  http.post('offers/checked', data);
+export const getOffersForModeration = ({ limit, offset }) =>
+  http.get('offers/offersList', { params: { limit, offset } });

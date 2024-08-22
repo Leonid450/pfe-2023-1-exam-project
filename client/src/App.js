@@ -21,7 +21,7 @@ import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatCo
 import HowItWorksPage from './pages/HowItWorks/HowItWorksPage';
 import HistoryOfTransactionsPage from './pages/HistoryOfTransactions/HistoryOfTransactionsPage';
 import Events from './pages/EventsPage/EventsPage';
-import ContestsForCheckPage from './pages/ContestsForCheck/ContestsForCheckPage';
+import OffersForCheckPage from './pages/OffersForCheckPage/OffersForCheckPage';
 class App extends Component {
   render() {
     return (
@@ -64,7 +64,7 @@ class App extends Component {
           <Route
             exact
             path="/contestsForCheckPage"
-            component={PrivateHoc(ContestsForCheckPage)}
+            component={PrivateHoc(OffersForCheckPage)}
           />
 
           <Route
