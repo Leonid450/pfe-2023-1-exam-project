@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import emailjs from '@emailjs/browser';
 import CONSTANTS from '../../constants';
 import * as restController from '../../api/rest/restController';
 import {
@@ -58,9 +59,29 @@ export const setModerationStatusOfOffers = decorateAsyncThunk({
 const setOfferStatusExtraReducers = createExtraReducers({
   thunk: setModerationStatusOfOffers,
   fulfilledReducer: (state, { payload }) => {
+    const templateParams = {
+      to_name: `${payload[0].User.firstName}`,
+      message: `${payload[0].moderation}`,
+      to_email: `${payload[0].User.email}`,
+    };
+    emailjs
+      .send(
+        'service_nu1ai38',
+        'template_vetdx2b',
+        templateParams,
+        'fGxg1uRhj2xA42t6l'
+      )
+      .then(
+        (response) => {
+          console.log('SUCCESS!', response.status, response.text);
+        },
+        (err) => {
+          console.log('FAILED...', err);
+        }
+      );
     state.checkedOffers = [...state.checkedOffers, ...payload];
+
     state.error = null;
-    console.log(payload);
   },
   rejectedReducer,
 });

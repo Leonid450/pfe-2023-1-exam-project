@@ -4,7 +4,7 @@ const _ = require('lodash');
 module.exports.getOffersForModeration = async (req, res, next) => {
   try {
     const {
-      query: { limit, offset },
+      query: { limit, offset },     
     } = req;
 
     const offers = await db.Offer.findAll({

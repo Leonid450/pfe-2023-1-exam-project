@@ -10,7 +10,7 @@ const OfferItem = ({
   declineOffer,
   changeShowImageOffer,
 }) => {
-  const modDataC = [offer.id, 'checked'];
+  const modDataC = [offer.id, 'allowed'];
 
   const modDataD = [offer.id, 'decline'];
 
