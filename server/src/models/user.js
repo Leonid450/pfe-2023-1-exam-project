@@ -15,19 +15,26 @@ async function hashPassword(user, options) {
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate({ Offer, Contest, Rating }) {
-      // define association here
-
+    static associate({
+      Offer,
+      Contest,
+      Rating,
+      Message,
+      Conversation,
+      Catalog,
+    }) {
       User.hasMany(Offer, { foreignKey: 'userId', targetKey: 'id' });
-
+      User.hasMany(Catalog, { foreignKey: 'userId', targetKey: 'id' });
       User.hasMany(Contest, { foreignKey: 'userId', targetKey: 'id' });
       hashPassword;
       User.hasMany(Rating, { foreignKey: 'userId', targetKey: 'id' });
+      User.hasMany(Message, { foreignKey: 'userId', targetKey: 'id' });
+      User.belongsToMany(Conversation, {
+        through: 'users_to_conversation',
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
 
     async passwordCompare(plaintextPassword) {
