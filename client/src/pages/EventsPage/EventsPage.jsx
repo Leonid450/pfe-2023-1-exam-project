@@ -14,9 +14,6 @@ const Events = (props) => {
   const handleAddEvent = () => {
     setIsModalVisible(true);
   };
-  // const closeModal = (e) => {
-  //   setIsModalVisible(false);
-  // };
 
   return (
     <>

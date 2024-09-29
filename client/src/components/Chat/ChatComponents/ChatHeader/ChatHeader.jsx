@@ -20,11 +20,6 @@ const ChatHeader = (props) => {
     event.stopPropagation();
   };
 
-  const isFavorite = (chatData, userId) => {
-    const { favoriteList, participants } = chatData;
-    return favoriteList[participants.indexOf(userId)];
-  };
-
   const isBlocked = (chatData, userId) => {
     const { participants, blackList } = chatData;
     return blackList[participants.indexOf(userId)];
@@ -61,15 +56,15 @@ const ChatHeader = (props) => {
               onClick={(event) =>
                 changeFavorite(
                   {
-                    participants: chatData.participants,
-                    favoriteFlag: !isFavorite(chatData, userId),
+                    chatId: chatData.id,
+                    favoriteFlag: !chatData.favoriteList,
                   },
                   event
                 )
               }
               className={classNames({
-                'far fa-heart': !isFavorite(chatData, userId),
-                'fas fa-heart': isFavorite(chatData, userId),
+                'far fa-heart': !chatData.favoriteList,
+                'fas fa-heart': chatData.favoriteList,
               })}
             />
             <i
@@ -78,6 +73,7 @@ const ChatHeader = (props) => {
                   {
                     participants: chatData.participants,
                     blackListFlag: !isBlocked(chatData, userId),
+                    chatId: chatData.id,
                   },
                   event
                 )

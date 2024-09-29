@@ -125,7 +125,6 @@ const EventForm = ({ createNewEvent, closeModal }) => {
             <div>
               <button
                 type="submit"
-                // onClick={closeModal}
                 className={styles.submitContainer}
               >
                 Create

@@ -9,7 +9,7 @@ const EventTimer = ({ left, date, startDate }) => {
   useEffect(() => {
     const diff = (finishTime - new Date()) / 1000;
 
-    if (diff < 0) return; // время вышло
+    if (diff < 0) return;
     setDiff([
       Math.floor(diff / 86400),
       Math.floor((diff / 3600) % 24),
