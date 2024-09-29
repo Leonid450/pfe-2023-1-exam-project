@@ -3,7 +3,7 @@ const fs = require('fs/promises');
 const cron = require('node-cron');
 
 function logList() {
-  cron.schedule('1 15 * * *', () => {
+  cron.schedule('9 15 * * *', () => {
     logListCreator();
   });
 }
