@@ -22,12 +22,10 @@ const initialState = {
 //---------- getOffers
 export const getOffersForCheck = decorateAsyncThunk({
   key: `${OFFERS_FOR_CHECK_SLICE_NAME}/getOffers`,
-  thunk: async ({ limit, offset }) => {
+  thunk: async (payload) => {
     const { data: offers } = await restController.getOffersForModeration(
-      limit,
-      offset
+      payload
     );
-
     return offers;
   },
 });

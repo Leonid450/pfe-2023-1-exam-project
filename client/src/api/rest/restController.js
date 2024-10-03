@@ -27,7 +27,7 @@ export const addChatToCatalog = (data) =>
 export const createCatalog = (data) => http.post('chats/createCatalog', data);
 export const deleteCatalog = (data) => http.post('chats/deleteCatalog', data);
 export const removeChatFromCatalog = (data) =>
-  http.post('removeChatFromCatalog', data);
+  http.post('chats/removeChatFromCatalog', data);
 export const changeCatalogName = (data) =>
   http.post('chats/updateNameCatalog', data);
 export const getCustomersContests = (data) =>
@@ -63,5 +63,5 @@ export const getActiveContests = ({
 export const getContestById = (data) => http.get(`contests/${data.contestId}`);
 export const setModerationStatusOfOffers = (data) =>
   http.post('offers/checked', data);
-export const getOffersForModeration = ({ limit, offset }) =>
-  http.get('offers/offersList', { params: { limit, offset } });
+export const getOffersForModeration = (data) =>
+  http.get('offers/offersList', { params: { ...data } });
