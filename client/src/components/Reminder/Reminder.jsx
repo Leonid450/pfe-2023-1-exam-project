@@ -16,7 +16,7 @@ const Reminder = ({ events }) => {
   const sum = eventRemind.reduce((acc, e) => acc + e, 0);
 
   useEffect(() => {
-    const timerID = setInterval(() => setTick(!tick), 5000);
+    const timerID = setInterval(() => setTick(!tick), 1000);
     return () => clearInterval(timerID);
   }, [tick]);
 
@@ -27,7 +27,7 @@ const Reminder = ({ events }) => {
           src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-text-outline.svg`}
           alt="calendar-text-outline"
         />
-        <div>{'0' && sum}</div>
+        <div>{sum}</div>
       </Link>
     </div>
   );

@@ -1,5 +1,8 @@
 import * as yup from 'yup';
 import valid from 'card-validator';
+import moment from 'moment';
+
+let currentDay = moment().format('MMMM DD, YYYY');
 
 export default {
   LoginSchem: yup.object().shape({
@@ -215,6 +218,6 @@ export default {
   }),
   EventSchema: yup.object({
     text: yup.string().min(3).required('required'),
-    date: yup.date().min(new Date(), 'Incorrect date').required('required'),
+    date: yup.date().min(currentDay, 'Incorrect date').required('required'),
   }),
 };

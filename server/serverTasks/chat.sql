@@ -1,32 +1,32 @@
 CREATE TABLE catalogs(
   id SERIAL PRIMARY KEY,
-  userId INT  REFERENCES "Users" (id),
+  "userId" INT  REFERENCES "Users" (id),
   catalogName VARCHAR(160) NOT NULL,
-  chats  INT NOT NULL REFERENCES conversations (id)
-  
-
-);
+  "createdAt" TIMESTAMP DEFAULT current_timestamp,
+  "updatedAt" TIMESTAMP DEFAULT current_timestamp
+  );
 
 
 CREATE TABLE conversations (
   id SERIAL PRIMARY KEY,
-  participants INT NOT NULL,
-  blackList BOOLEAN,
-  favoriteList BOOLEAN,
-  created_at TIMESTAMP DEFAULT current_timestamp,
-  updated_at TIMESTAMP DEFAULT current_timestamp
-
-
+  "createdAt" TIMESTAMP DEFAULT current_timestamp,
+  "updatedAt" TIMESTAMP DEFAULT current_timestamp
 );
 
 CREATE TABLE users_to_conversation(
-  userId INT NOT NULL REFERENCES "Users" (id),
-  conversationId INT NOT NULL REFERENCES conversations (id),
+  "userId" INT NOT NULL REFERENCES "Users" (id),
+  "conversationId" INT NOT NULL REFERENCES conversations (id),
+  blackList BOOLEAN,
+  favoriteList BOOLEAN,
+  "createdAt" TIMESTAMP DEFAULT current_timestamp,
+  "updatedAt" TIMESTAMP DEFAULT current_timestamp,
   PRIMARY KEY( userId, conversationId)
 );
 CREATE TABLE catalog_to_conversation(
   catalogId INT NOT NULL REFERENCES catalogs (id),
   conversationId INT NOT NULL REFERENCES conversations (id),
+  "createdAt" TIMESTAMP DEFAULT current_timestamp,
+  "updatedAt" TIMESTAMP DEFAULT current_timestamp,
   PRIMARY KEY( catalogId, conversationId)
 );
 
@@ -34,10 +34,9 @@ CREATE TABLE catalog_to_conversation(
 
 CREATE TABLE messages (
   id SERIAL PRIMARY KEY,
-  sender INT NOT NULL REFERENCES "Users" (id),
+  "userId" INT NOT NULL REFERENCES "Users" (id),
   body TEXT NOT NULL,
-  "conversation" INT NOT NULL REFERENCES conversations (id),
-  created_at TIMESTAMP DEFAULT current_timestamp,
-  updated_at TIMESTAMP DEFAULT current_timestamp
-
+  "conversationId" INT NOT NULL REFERENCES conversations (id),
+  "createdAt" TIMESTAMP DEFAULT current_timestamp,
+  "updatedAt" TIMESTAMP DEFAULT current_timestamp
 );
