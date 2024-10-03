@@ -38,8 +38,8 @@ class CustomerDashboard extends React.Component {
     }
   }
 
-  goToExtended = contest_id => {
-    this.props.history.push(`/contest/${contest_id}`);
+  goToExtended = contestId => {
+    this.props.history.push(`/contest/${contestId}`);
   };
 
   setContestList = () => {

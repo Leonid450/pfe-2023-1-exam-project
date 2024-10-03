@@ -109,8 +109,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setModerationStatusOfOffers(payload)),
   getOffers: (params) => dispatch(getOffersForCheck(params)),
   loadOfferListPage: (offset) => dispatch(loadOfferListPage(offset)),
-  // clearSetOfferAfterCheckOfferError: () =>
-  //   dispatch(clearSetOfferAfterCheckOfferError()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OffersForCheckList);

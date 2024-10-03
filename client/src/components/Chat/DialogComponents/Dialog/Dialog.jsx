@@ -12,7 +12,10 @@ import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
 
 class Dialog extends React.Component {
   componentDidMount() {
-    this.props.getDialog({ interlocutorId: this.props.interlocutor.id });
+    this.props.getDialog({
+      interlocutorId: this.props.interlocutor.id,
+      chatId: this.props.chatData.id || null,
+    });
     this.scrollToBottom();
   }
 
@@ -22,7 +25,7 @@ class Dialog extends React.Component {
     this.messagesEnd.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.interlocutor.id !== this.props.interlocutor.id)
       this.props.getDialog({ interlocutorId: nextProps.interlocutor.id });
   }
@@ -52,7 +55,7 @@ class Dialog extends React.Component {
         <div
           key={i}
           className={className(
-            userId === message.sender ? styles.ownMessage : styles.message
+            userId === message.userId ? styles.ownMessage : styles.message
           )}
         >
           <span>{message.body}</span>
@@ -89,7 +92,7 @@ class Dialog extends React.Component {
         {chatData && chatData.blackList.includes(true) ? (
           this.blockMessage()
         ) : (
-          <ChatInput />
+          <ChatInput chatId={chatData.id || null} />
         )}
       </>
     );

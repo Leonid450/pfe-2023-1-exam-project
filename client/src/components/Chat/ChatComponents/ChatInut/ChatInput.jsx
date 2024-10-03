@@ -10,13 +10,13 @@ import Schems from '../../../../utils/validators/validationSchems';
 const ChatInput = (props) => {
   const submitHandler = (values, { resetForm }) => {
     props.sendMessage({
+      chatId: props.chatId,
       messageBody: values.message,
       recipient: props.interlocutor.id,
       interlocutor: props.interlocutor,
     });
     resetForm();
   };
-
   return (
     <div className={styles.inputContainer}>
       <Formik
