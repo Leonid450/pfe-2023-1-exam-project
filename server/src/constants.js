@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   JWT_SECRET: 'asdasdasd4as5d4as8d7a8sd4as65d4a8sd7asd4as56d4',
   ACCESS_TOKEN_TIME: 60 * 60,
@@ -19,7 +21,8 @@ module.exports = {
   OFFER_STATUS_PENDING: 'pending',
   OFFER_STATUS_REJECTED: 'rejected',
   OFFER_STATUS_WON: 'won',
-  FILES_PATH: 'public/',
+  DEV_FILES_PATH: path.resolve(__dirname, '..', 'public'),
+  PROD_FILES_PATH: '/var/www/html',
   SOCKET_CONNECTION: 'connection',
   SOCKET_SUBSCRIBE: 'subscribe',
   SOCKET_UNSUBSCRIBE: 'unsubscribe',

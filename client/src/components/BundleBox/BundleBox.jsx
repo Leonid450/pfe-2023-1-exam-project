@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './BundleBox.module.sass';
 import CONSTANTS from '../../constants';
 
-const BundleBox = props => {
+const BundleBox = (props) => {
   const defaultPathToImages = `${CONSTANTS.STATIC_IMAGES_PATH}contestLabels/`;
 
   const renderImage = () => {
@@ -35,7 +35,7 @@ const BundleBox = props => {
       element.children[0].children[i].src = defaultPathToImages + props.path[i];
     }
   };
-
+  
   const getBackClass = () =>
     props.path.length === 1 ? ' ' : ` ${styles.combinedBundle}`;
 

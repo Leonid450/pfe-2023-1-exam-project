@@ -17,10 +17,14 @@ export default {
   ANONYM_IMAGE_PATH: '/staticImages/anonym.png',
   BASE_URL: `http://${serverIP}:${serverPort}/`,
   ACCESS_TOKEN: 'accessToken',
-  publicURL:
+  publicImagesURL:
     env === 'production'
       ? `http://${serverIP}:80/images/`
       : `http://${serverIP}:${serverPort}/public/images/`,
+  publicContestsURL:
+    env === 'production'
+      ? `http://${serverIP}:80/contests/`
+      : `http://${serverIP}:${serverPort}/public/contests/`,
   NORMAL_PREVIEW_CHAT_MODE: 'NORMAL_PREVIEW_CHAT_MODE',
   FAVORITE_PREVIEW_CHAT_MODE: 'FAVORITE_PREVIEW_CHAT_MODE',
   BLOCKED_PREVIEW_CHAT_MODE: 'BLOCKED_PREVIEW_CHAT_MODE',

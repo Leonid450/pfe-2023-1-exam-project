@@ -6,6 +6,7 @@ import CONSTANTS from '../../constants';
 import { clearUserStore } from '../../store/slices/userSlice';
 import { getUser } from '../../store/slices/userSlice';
 
+import Reminder from '.././Reminder/Reminder';
 class Header extends React.Component {
   componentDidMount() {
     if (!this.props.data) {
@@ -32,7 +33,7 @@ class Header extends React.Component {
               src={
                 this.props.data.avatar === 'anon.png'
                   ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.publicURL}${this.props.data.avatar}`
+                  : `${CONSTANTS.publicImagesURL}${this.props.data.avatar}`
               }
               alt="user"
             />
@@ -45,6 +46,11 @@ class Header extends React.Component {
               <li>
                 <Link to="/dashboard" style={{ textDecoration: 'none' }}>
                   <span>View Dashboard</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/events" style={{ textDecoration: 'none' }}>
+                  <span>Events</span>
                 </Link>
               </li>
               <li>
@@ -78,6 +84,9 @@ class Header extends React.Component {
             className={styles.emailIcon}
             alt="email"
           />
+          <div>
+            <Reminder />
+          </div>
         </>
       );
     }
@@ -109,18 +118,25 @@ class Header extends React.Component {
         <div className={styles.loginSignnUpHeaders}>
           <div className={styles.numberContainer}>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt="phone" />
-            <span>(877)&nbsp;355-3585</span>
+            <span>
+              {' '}
+              <a className={styles.tel} href="tel: +8773553585">
+                (877)3553585
+              </a>
+            </span>
           </div>
           <div className={styles.userButtonsContainer}>
             {this.renderLoginButtons()}
           </div>
         </div>
         <div className={styles.navContainer}>
-          <img
-            src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
-            className={styles.logo}
-            alt="blue_logo"
-          />
+          <a href="/">
+            <img
+              src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
+              className={styles.logo}
+              alt="blue_logo"
+            />
+          </a>
           <div className={styles.leftNav}>
             <div className={styles.nav}>
               <ul>
@@ -165,7 +181,7 @@ class Header extends React.Component {
                   />
                   <ul>
                     <li>
-                      <a href="http://www.google.com">HOW IT WORKS</a>
+                      <Link to="/how-it-works">HOW IT WORKS</Link>
                     </li>
                     <li>
                       <a href="http://www.google.com">PRICING</a>

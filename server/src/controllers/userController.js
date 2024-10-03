@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const bd = require('../models');
 const NotUniqueEmail = require('../errors/NotUniqueEmail');
+const NotFound = require('../errors/UserNotFoundError');
 const moment = require('moment');
 const { v4: uuid } = require('uuid');
 const controller = require('../socketInit');
@@ -12,7 +13,13 @@ const ratingQueries = require('./queries/ratingQueries');
 module.exports.login = async (req, res, next) => {
   try {
     const foundUser = await userQueries.findUser({ email: req.body.email });
-    await userQueries.passwordCompare(req.body.password, foundUser.password);
+
+    const isValidPassword = await foundUser.passwordCompare(req.body.password);
+
+    if(!isValidPassword) {
+      throw new NotFound('user with this data dont exist');
+    }
+
     const accessToken = jwt.sign({
       firstName: foundUser.firstName,
       userId: foundUser.id,
@@ -32,8 +39,7 @@ module.exports.login = async (req, res, next) => {
 };
 module.exports.registration = async (req, res, next) => {
   try {
-    const newUser = await userQueries.userCreation(
-      Object.assign(req.body, { password: req.hashPass }));
+    const newUser = await userQueries.userCreation(req.body);
     const accessToken = jwt.sign({
       firstName: newUser.firstName,
       userId: newUser.id,
@@ -78,10 +84,10 @@ module.exports.changeMark = async (req, res, next) => {
       { isolationLevel: bd.Sequelize.Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED });
     const query = getQuery(offerId, userId, mark, isFirst, transaction);
     await query();
-    const offersArray = await bd.Ratings.findAll({
+    const offersArray = await bd.Rating.findAll({
       include: [
         {
-          model: bd.Offers,
+          model: bd.Offer,
           required: true,
           where: { userId: creatorId },
         },
@@ -140,7 +146,7 @@ module.exports.payment = async (req, res, next) => {
         prize,
       });
     });
-    await bd.Contests.bulkCreate(req.body.contests, transaction);
+    await bd.Contest.bulkCreate(req.body.contests, transaction);
     transaction.commit();
     res.send();
   } catch (err) {
