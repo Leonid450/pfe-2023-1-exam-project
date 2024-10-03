@@ -7,10 +7,10 @@ async function logger(message, code, stack) {
     await fs.appendFile(`${__dirname}/logs/currentDay.json`, '[]');
   }
 
-  const oldText = await fs.readFile(
-    `${__dirname}/logs/currentDay.json`,
-    'utf-8'
-  );
+  let oldText = await fs.readFile(`${__dirname}/logs/currentDay.json`, 'utf-8');
+  if (oldText.length < 2) {
+    oldText = '[]';
+  }
   const oldArr = JSON.parse(oldText);
   await oldArr.push(log);
 

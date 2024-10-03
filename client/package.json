@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^1.2.0",
     "card-validator": "^8.1.1",
