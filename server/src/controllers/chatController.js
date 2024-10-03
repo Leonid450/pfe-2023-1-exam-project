@@ -219,11 +219,11 @@ module.exports.getPreview = async (req, res, next) => {
             } else {
               const { favoriteList } =
                 user.dataValues.users_to_conversation.dataValues;
-
               conversation.dataValues = {
                 favoriteList,
                 ...conversation.dataValues,
               };
+
               conversation.dataValues.sender =
                 conversation.dataValues.Messages[0].userId;
               conversation.dataValues.text =
@@ -231,12 +231,12 @@ module.exports.getPreview = async (req, res, next) => {
               conversation.dataValues.createdAt =
                 conversation.dataValues.Messages[0].createdAt;
             }
-            delete conversation.dataValues.Messages;
           });
+          delete conversation.dataValues.Messages;
         }
       });
     });
-
+    console.log(3);
     res.send(conversations);
   } catch {
     (err) => next(new ServerError(err));
