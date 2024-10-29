@@ -1,5 +1,4 @@
 const db = require('../models');
-const _ = require('lodash');
 
 module.exports.getOffersForModeration = async (req, res, next) => {
   try {
@@ -14,8 +13,8 @@ module.exports.getOffersForModeration = async (req, res, next) => {
     });
 
     res.send(offers);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -42,7 +41,7 @@ module.exports.setModerationStatusOfOffers = async (req, res, next) => {
     });
 
     res.send(offerChecked);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };

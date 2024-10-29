@@ -53,9 +53,7 @@ module.exports.addMessage = async (req, res, next) => {
     });
     message.dataValues.participants = participants;
 
-    const interlocutorId = participants.filter(
-      (participant) => participant !== req.tokenData.userId
-    )[0];
+    const interlocutorId = req.body.recipient;
 
     const preview = {
       id: chat.dataValues.id,
@@ -90,8 +88,8 @@ module.exports.addMessage = async (req, res, next) => {
       message,
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
     });
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -103,6 +101,7 @@ module.exports.getChat = async (req, res, next) => {
   try {
     const messages = await db.Message.findAll({
       where: { conversationId: req.body.chatId },
+      limit: 100,
       order: [['id', 'asc']],
     });
 
@@ -120,8 +119,8 @@ module.exports.getChat = async (req, res, next) => {
         avatar: interlocutor.avatar,
       },
     });
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -141,10 +140,7 @@ module.exports.getPreview = async (req, res, next) => {
       ],
     });
 
-    const chatId = [];
-    conversationsOfUser.forEach((conversation) => {
-      chatId.push(conversation.dataValues.id);
-    });
+    const chatId = conversationsOfUser?.map((conv) => conv.dataValues.id);
     const conversations = await db.Conversation.findAll({
       where: { id: chatId },
       attributes: ['id'],
@@ -236,10 +232,10 @@ module.exports.getPreview = async (req, res, next) => {
         }
       });
     });
-    console.log(3);
+
     res.send(conversations);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -279,8 +275,8 @@ module.exports.blackList = async (req, res, next) => {
       .getChatController()
       .emitChangeBlockStatus(interlocutorId, changeBlackList);
     res.send(changeBlackList);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -300,8 +296,8 @@ module.exports.favoriteChat = async (req, res, next) => {
     );
 
     res.send(chatF);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -329,8 +325,8 @@ module.exports.createCatalog = async (req, res, next) => {
       ],
     });
     res.send(chatsInCatalog);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(new ServerError(err));
   }
 };
 
@@ -342,8 +338,8 @@ module.exports.updateNameCatalog = async (req, res, next) => {
     });
 
     res.send(updateNameCatalog);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -379,8 +375,8 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
       ],
     });
     res.send(catalogReduced);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -388,8 +384,8 @@ module.exports.deleteCatalog = async (req, res, next) => {
   try {
     await db.Catalog.destroy({ where: { id: req.body.catalogId } });
     res.send();
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -408,7 +404,7 @@ module.exports.getCatalogs = async (req, res, next) => {
       ],
     });
     res.send(catalogs);
-  } catch {
-    (err) => next(new ServerError(err));
+  } catch (err) {
+    next(err);
   }
 };
