@@ -1,4 +1,4 @@
-const logger = require('../../logger');
+const logger = require('../../src/lib/logger/logger');
 class ApplicationError extends Error {
   constructor(message, status) {
     super();

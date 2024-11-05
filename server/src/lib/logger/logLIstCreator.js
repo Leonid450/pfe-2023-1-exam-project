@@ -10,7 +10,7 @@ function logList() {
 
 async function logListCreator() {
   const allText = await fs.readFile(
-    `${__dirname}/logs/currentDay.json`,
+    `${__dirname}/../../../logs/currentDay.json`,
     'utf-8'
   );
   const logsFull = JSON.parse(allText);
@@ -20,9 +20,9 @@ async function logListCreator() {
   });
 
   await fs.appendFile(
-    `${__dirname}/logs/${Date.now()}.json`,
+    `${__dirname}/../../../logs/${Date.now()}.json`,
     `${JSON.stringify(logsShort)}`
   );
-  await fs.writeFile(`${__dirname}/logs/currentDay.json`, '[]');
+  await fs.writeFile(`${__dirname}/../../../logs/currentDay.json`, '[]');
 }
 module.exports = logList;
