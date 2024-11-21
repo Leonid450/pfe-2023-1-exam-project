@@ -326,7 +326,7 @@ module.exports.createCatalog = async (req, res, next) => {
     });
     res.send(chatsInCatalog);
   } catch (err) {
-    next(new ServerError(err));
+    next(err);
   }
 };
 
