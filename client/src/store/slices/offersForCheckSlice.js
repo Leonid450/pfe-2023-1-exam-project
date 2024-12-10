@@ -19,7 +19,7 @@ const initialState = {
   image: { isShowOnFull: false, imagePath: null },
   checkedOffers: [],
 };
-//---------- getOffers
+
 export const getOffersForCheck = decorateAsyncThunk({
   key: `${OFFERS_FOR_CHECK_SLICE_NAME}/getOffers`,
   thunk: async (payload) => {
@@ -44,7 +44,7 @@ const getOffersForModerationExtraReducers = createExtraReducers({
   },
   rejectedReducer,
 });
-//--------set offer
+
 export const setModerationStatusOfOffers = decorateAsyncThunk({
   key: `${OFFERS_FOR_CHECK_SLICE_NAME}/setOfferStatus`,
   thunk: async (payload) => {
