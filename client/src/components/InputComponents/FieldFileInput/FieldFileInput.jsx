@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, useField } from 'formik';
+import { useField } from 'formik';
 
 const FieldFileInput = ({ classes, name }) => {
   const { fileUploadContainer, labelClass, fileNameClass, fileInput } = classes;
@@ -14,7 +14,6 @@ const FieldFileInput = ({ classes, name }) => {
   };
 
   const onChange = (e) => {
-
     const file = e.target.files[0];
 
     helpers.setValue(file);

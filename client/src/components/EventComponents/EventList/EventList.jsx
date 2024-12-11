@@ -3,7 +3,7 @@ import styles from './EventList.module.sass';
 import { connect } from 'react-redux';
 import EventTimer from '../eventTimer';
 import { deleteEvent } from '../../../store/slices/eventSlice';
-const { useState, useEffect } = React;
+const { useState } = React;
 
 const EventList = ({ deleteEvent, events }) => {
   const eventsSorted = events.toSorted((a, b) => {

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import emailjs from '@emailjs/browser';
-import CONSTANTS from '../../constants';
 import * as restController from '../../api/rest/restController';
 import {
   decorateAsyncThunk,

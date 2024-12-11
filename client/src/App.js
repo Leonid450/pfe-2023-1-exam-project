@@ -19,7 +19,6 @@ import CONSTANTS from './constants';
 import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import HowItWorksPage from './pages/HowItWorks/HowItWorksPage';
-import HistoryOfTransactionsPage from './pages/HistoryOfTransactions/HistoryOfTransactionsPage';
 import Events from './pages/EventsPage/EventsPage';
 import OffersForCheckPage from './pages/OffersForCheckPage/OffersForCheckPage';
 class App extends Component {
@@ -51,11 +50,6 @@ class App extends Component {
           />
           <Route exact path="/payment" component={PrivateHoc(Payment)} />
           <Route exact path="/how-it-works" component={HowItWorksPage} />
-          <Route
-            exact
-            path="/account/transactions"
-            component={PrivateHoc(HistoryOfTransactionsPage)}
-          />
           <Route
             exact
             path="/startContest"

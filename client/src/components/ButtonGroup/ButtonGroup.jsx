@@ -3,7 +3,7 @@ import { Field } from 'formik';
 import CONSTANTS from '../../constants';
 import styles from './ButtonGroup.module.sass';
 import cx from 'classnames';
-const { useState, useEffect } = React;
+const { useState } = React;
 const ButtonGroup = () => {
   const [choice, setChoice] = useState('yesRecommended');
   const [active, setActive] = useState(1);

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Header from '../../components/Header/Header';
-import cx from 'classnames';
 import Footer from '../../components/Footer/Footer';
 import styles from './OffersForCheckPage.module.sass';
 import Spinner from '../../components/Spinner/Spinner';

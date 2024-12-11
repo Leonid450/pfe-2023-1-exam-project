@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './Reminder.module.sass';
 import CONSTANTS from '../../constants';
 const { useState, useEffect } = React;
