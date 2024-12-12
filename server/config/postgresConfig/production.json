@@ -1,0 +1,11 @@
+{
+  "production": {
+    "username": "postgres",
+    "password": "admin",
+    "database": "squad-help-prod",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": "Op",
+    "seederStorage": "sequelize"
+  }
+}

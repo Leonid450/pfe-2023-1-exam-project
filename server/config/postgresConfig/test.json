@@ -1,0 +1,11 @@
+{
+  "test": {
+    "username": "postgres",
+    "password": "admin",
+    "database": "squad-help-test",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": "Op",
+    "seederStorage": "sequelize"
+  }
+}
