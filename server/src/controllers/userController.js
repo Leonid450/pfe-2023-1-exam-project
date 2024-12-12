@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
-const bd = require('../models');
+const bd = require(CONSTANTS.MODEL_FILES_PATH);
 const NotUniqueEmail = require('../errors/NotUniqueEmail');
 const NotFound = require('../errors/UserNotFoundError');
 const moment = require('moment');

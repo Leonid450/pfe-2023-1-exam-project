@@ -1,4 +1,5 @@
-const db = require('../models');
+const CONSTANTS = require('../constants');
+const db = require(CONSTANTS.MODEL_FILES_PATH);
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const _ = require('lodash');

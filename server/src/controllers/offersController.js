@@ -1,4 +1,5 @@
-const db = require('../models');
+const CONSTANTS = require('../constants');
+const db = require(CONSTANTS.MODEL_FILES_PATH);
 
 module.exports.getOffersForModeration = async (req, res, next) => {
   try {
