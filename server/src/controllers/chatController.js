@@ -94,19 +94,19 @@ module.exports.addMessage = async (req, res, next) => {
 };
 
 module.exports.getChat = async (req, res, next) => {
-  const participants = [req.tokenData.userId, req.body.interlocutorId];
+  const participants = [req.tokenData.userId, req.query.interlocutorId];
   participants.sort(
     (participant1, participant2) => participant1 - participant2
   );
   try {
     const messages = await db.Message.findAll({
-      where: { conversationId: req.body.chatId },
+      where: { conversationId: req.query.chatId },
       limit: 100,
       order: [['id', 'asc']],
     });
 
     const interlocutor = await userQueries.findUser({
-      id: req.body.interlocutorId,
+      id: req.query.interlocutorId,
     });
 
     res.send({
@@ -358,12 +358,12 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
 
 module.exports.removeChatFromCatalog = async (req, res, next) => {
   try {
-    const chat = await db.Conversation.findByPk(req.body.chatId);
-    const catalog = await db.Catalog.findByPk(req.body.catalogId);
+    const chat = await db.Conversation.findByPk(req.params.chatId);
+    const catalog = await db.Catalog.findByPk(req.params.catalogId);
 
     await catalog.removeConversation(chat);
     const catalogReduced = await db.Catalog.findOne({
-      where: { id: req.body.catalogId },
+      where: { id: req.params.catalogId },
       include: [
         {
           model: db.Conversation,
@@ -382,7 +382,7 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
 
 module.exports.deleteCatalog = async (req, res, next) => {
   try {
-    await db.Catalog.destroy({ where: { id: req.body.catalogId } });
+    await db.Catalog.destroy({ where: { id: req.params.catalogId } });
     res.send();
   } catch (err) {
     next(err);

@@ -13,13 +13,13 @@ userRouter.post(
   userController.payment
 );
 
-userRouter.post(
+userRouter.put(
   '/changeMark',
   basicMiddlewares.onlyForCustomer,
   userController.changeMark
 );
 
-userRouter.post('/updateUser', upload.uploadAvatar, userController.updateUser);
+userRouter.put('/updateUser', upload.uploadAvatar, userController.updateUser);
 
 userRouter.post(
   '/cashout',

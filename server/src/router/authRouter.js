@@ -10,6 +10,6 @@ authRouter.post(
 
 authRouter.post('/login', validators.validateLogin, userController.login);
 
-authRouter.post('/getUser', checkToken.checkAuth);
+authRouter.get('/getUser', checkToken.checkAuth);
 
 module.exports = authRouter;

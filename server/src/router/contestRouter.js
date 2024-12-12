@@ -3,9 +3,7 @@ const contestController = require('../controllers/contestController');
 const basicMiddlewares = require('../middlewares/basicMiddlewares');
 const upload = require('../utils/fileUpload');
 
-
 contestRouter.get('/customers', contestController.getCustomersContests);
-
 
 contestRouter.get(
   '/:contestId',
@@ -35,7 +33,7 @@ contestRouter.post(
   contestController.setNewOffer
 );
 
-contestRouter.post(
+contestRouter.put(
   '/setOfferStatus',
   basicMiddlewares.onlyForCustomerWhoCreateContest,
   contestController.setOfferStatus
