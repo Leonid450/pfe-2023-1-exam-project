@@ -1,32 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getUser } from '../../store/slices/userSlice';
 import Spinner from '../Spinner/Spinner';
 
 const PrivateHoc = (Component, props) => {
-  class Hoc extends React.Component {
-    componentDidMount() {
-      if (!this.props.data) {
-        this.props.getUser();
+  const Hoc = (props) => {
+    useEffect(() => {
+      if (!props.data) {
+        props.getUser();
       }
-    }
+    }, []);
 
-    render() {
-      return (
-        <>
-          {this.props.isFetching ? (
-            <Spinner />
-          ) : (
-            <Component
-              history={this.props.history}
-              match={this.props.match}
-              {...props}
-            />
-          )}
-        </>
-      );
-    }
-  }
+    return (
+      <>
+        {props.isFetching ? (
+          <Spinner />
+        ) : (
+          <Component history={props.history} match={props.match} {...props} />
+        )}
+      </>
+    );
+  };
 
   const mapStateToProps = (state) => state.userStore;
 

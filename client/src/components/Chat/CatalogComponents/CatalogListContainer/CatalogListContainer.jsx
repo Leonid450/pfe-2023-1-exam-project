@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   getCatalogList,
@@ -7,19 +7,18 @@ import {
 import CatalogList from '../CatalogList/CatalogList';
 import DialogList from '../../DialogComponents/DialogList/DialogList';
 
-class CatalogListContainer extends React.Component {
-  componentDidMount() {
-    this.props.getCatalogList();
-  }
-
-  removeChatFromCatalog = (event, chatId) => {
-    const { id } = this.props.chatStore.currentCatalog;
-    this.props.removeChatFromCatalog({ chatId, catalogId: id });
+const CatalogListContainer = (props) => {
+  useEffect(() => {
+    props.getCatalogList();
+  }, []);
+  const removeChatFromCatalog = (event, chatId) => {
+    const { id } = props.chatStore.currentCatalog;
+    props.removeChatFromCatalog({ chatId, catalogId: id });
     event.stopPropagation();
   };
 
-  getDialogsPreview = () => {
-    const { messagesPreview, currentCatalog } = this.props.chatStore;
+  const getDialogsPreview = () => {
+    const { messagesPreview, currentCatalog } = props.chatStore;
     const { Conversations } = currentCatalog;
     const dialogsInCatalog = [];
     for (let i = 0; i < messagesPreview.length; i++) {
@@ -32,24 +31,22 @@ class CatalogListContainer extends React.Component {
     return dialogsInCatalog;
   };
 
-  render() {
-    const { catalogList, isShowChatsInCatalog } = this.props.chatStore;
-    const { id } = this.props.userStore.data;
-    return (
-      <>
-        {isShowChatsInCatalog ? (
-          <DialogList
-            userId={id}
-            preview={this.getDialogsPreview()}
-            removeChat={this.removeChatFromCatalog}
-          />
-        ) : (
-          <CatalogList catalogList={catalogList} />
-        )}
-      </>
-    );
-  }
-}
+  const { catalogList, isShowChatsInCatalog } = props.chatStore;
+  const { id } = props.userStore.data;
+  return (
+    <>
+      {isShowChatsInCatalog ? (
+        <DialogList
+          userId={id}
+          preview={getDialogsPreview()}
+          removeChat={removeChatFromCatalog}
+        />
+      ) : (
+        <CatalogList catalogList={catalogList} />
+      )}
+    </>
+  );
+};
 
 const mapStateToProps = (state) => {
   const { chatStore, userStore } = state;
