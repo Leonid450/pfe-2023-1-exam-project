@@ -18,8 +18,9 @@ import './confirmStyle.css';
 
 const OfferBox = (props) => {
   const findConversationInfo = () => {
-    const { messagesPreview, id } = props;
-    const participants = [id, props.data.User.id];
+    const { messagesPreview, userId } = props;
+
+    const participants = [userId, props.data.User.id];
     participants.sort(
       (participant1, participant2) => participant1 - participant2
     );
@@ -231,11 +232,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => {
   const { changeMarkError } = state.contestByIdStore;
-  const { id, role } = state.userStore.data;
+  const { userId, role } = state.userStore.data;
   const { messagesPreview } = state.chatStore;
   return {
     changeMarkError,
-    id,
+    userId,
     role,
     messagesPreview,
   };

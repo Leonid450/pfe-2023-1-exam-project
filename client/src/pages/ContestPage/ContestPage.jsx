@@ -85,7 +85,7 @@ const ContestPage = (props) => {
 
   const needButtons = (offerStatus) => {
     const contestCreatorId = contestData.User.id;
-    const userId = props.userStore.data.id;
+    const userId = props.userStore.data.userId;
     const contestStatus = contestData.status;
     return (
       contestCreatorId === userId &&
@@ -96,7 +96,7 @@ const ContestPage = (props) => {
 
   const findConversationInfo = (interlocutorId) => {
     const { messagesPreview } = props.chatStore;
-    const { id } = props.userStore.data;
+    const { userId: id } = props.userStore.data;
     const participants = [id, interlocutorId];
     participants.sort(
       (participant1, participant2) => participant1 - participant2

@@ -13,12 +13,12 @@ import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
 const Dialog = (props) => {
   const messagesEnd = useRef(null);
   const { chatData, userId, messages } = props;
-
   useEffect(() => {
-    props.getDialog({
-      interlocutorId: props.interlocutor.id,
-      chatId: chatData.id || null,
-    });
+    if (chatData.id)
+      props.getDialog({
+        interlocutorId: props.interlocutor.id,
+        chatId: chatData.id,
+      });
     return () => {
       props.clearMessageList();
     };

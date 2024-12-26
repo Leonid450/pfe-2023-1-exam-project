@@ -20,20 +20,19 @@ import ChatError from '../../../ChatError/ChatError';
 
 const Chat = (props) => {
   useEffect(() => {
-    chatController.subscribeChat(props.userStore.data.id);
+    chatController.subscribeChat(props.userStore.data.userId);
     props.getPreviewChat();
     return () => {
-      chatController.unsubscribeChat(props.userStore.data.id);
+      chatController.unsubscribeChat(props.userStore.data.userId);
     };
   }, []);
   const { isExpanded, isShow, isShowCatalogCreation, error } = props.chatStore;
-  const { id } = props.userStore.data;
+  const { userId } = props.userStore.data;
   const { changeShow, getPreviewChat } = props;
 
   const DialogList = () => {
     const { setChatPreviewMode } = props;
     const { chatMode, isShowChatsInCatalog } = props.chatStore;
-    const { id } = props.userStore.data;
     const {
       NORMAL_PREVIEW_CHAT_MODE,
       FAVORITE_PREVIEW_CHAT_MODE,
@@ -87,7 +86,7 @@ const Chat = (props) => {
         {chatMode === CATALOG_PREVIEW_CHAT_MODE ? (
           <CatalogListContainer />
         ) : (
-          <DialogListContainer userId={id} />
+          <DialogListContainer userId={userId} />
         )}
       </div>
     );
@@ -101,7 +100,7 @@ const Chat = (props) => {
     >
       {error && <ChatError getData={getPreviewChat} />}
       {isShowCatalogCreation && <CatalogCreation />}
-      {isExpanded ? <Dialog userId={id} /> : DialogList()}
+      {isExpanded ? <Dialog userId={userId} /> : DialogList()}
       <div className={styles.toggleChat} onClick={() => changeShow()}>
         {isShow ? 'Hide Chat' : 'Show Chat'}
       </div>

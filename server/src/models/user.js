@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
           min: 0,
         },
       },
-      accessToken: {
+      refreshToken: {
         type: DataTypes.TEXT,
         allowNull: true,
       },

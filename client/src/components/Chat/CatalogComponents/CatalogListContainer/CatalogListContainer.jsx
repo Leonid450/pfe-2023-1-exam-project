@@ -32,12 +32,12 @@ const CatalogListContainer = (props) => {
   };
 
   const { catalogList, isShowChatsInCatalog } = props.chatStore;
-  const { id } = props.userStore.data;
+  const { userId } = props.userStore.data;
   return (
     <>
       {isShowChatsInCatalog ? (
         <DialogList
-          userId={id}
+          userId={userId}
           preview={getDialogsPreview()}
           removeChat={removeChatFromCatalog}
         />

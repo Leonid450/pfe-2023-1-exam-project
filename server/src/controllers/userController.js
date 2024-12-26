@@ -9,6 +9,35 @@ const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const JWTService = require('../utils/jwt');
+
+module.exports.refresh = async (req, res, next) => {
+  try {
+    const {
+      body: { dataValues: foundUser },
+    } = req;
+    const tokenData = {
+      firstName: foundUser.firstName,
+      userId: foundUser.id,
+      role: foundUser.role,
+      lastName: foundUser.lastName,
+      avatar: foundUser.avatar,
+      displayName: foundUser.displayName,
+      balance: foundUser.balance,
+      email: foundUser.email,
+      rating: foundUser.rating,
+    };
+    const refreshToken = await JWTService.createRefreshToken(tokenData);
+    const accessToken = await JWTService.createAccessToken(tokenData);
+    await userQueries.updateUser({ refreshToken: refreshToken }, foundUser.id);
+
+    res
+      .status(201)
+      .send({ ...tokenData, tokenPair: { accessToken, refreshToken } });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -19,24 +48,21 @@ module.exports.login = async (req, res, next) => {
     if (!isValidPassword) {
       throw new NotFound('user with this data dont exist');
     }
-
-    const accessToken = jwt.sign(
-      {
-        firstName: foundUser.firstName,
-        userId: foundUser.id,
-        role: foundUser.role,
-        lastName: foundUser.lastName,
-        avatar: foundUser.avatar,
-        displayName: foundUser.displayName,
-        balance: foundUser.balance,
-        email: foundUser.email,
-        rating: foundUser.rating,
-      },
-      CONSTANTS.JWT_SECRET,
-      { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME }
-    );
-    await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({ token: accessToken });
+    const tokenData = {
+      firstName: foundUser.firstName,
+      userId: foundUser.id,
+      role: foundUser.role,
+      lastName: foundUser.lastName,
+      avatar: foundUser.avatar,
+      displayName: foundUser.displayName,
+      balance: foundUser.balance,
+      email: foundUser.email,
+      rating: foundUser.rating,
+    };
+    const refreshToken = await JWTService.createRefreshToken(tokenData);
+    const accessToken = await JWTService.createAccessToken(tokenData);
+    await userQueries.updateUser({ refreshToken }, foundUser.id);
+    res.send({ tokenData, tokenPair: { refreshToken, accessToken } });
   } catch (err) {
     next(err);
   }
@@ -44,23 +70,21 @@ module.exports.login = async (req, res, next) => {
 module.exports.registration = async (req, res, next) => {
   try {
     const newUser = await userQueries.userCreation(req.body);
-    const accessToken = jwt.sign(
-      {
-        firstName: newUser.firstName,
-        userId: newUser.id,
-        role: newUser.role,
-        lastName: newUser.lastName,
-        avatar: newUser.avatar,
-        displayName: newUser.displayName,
-        balance: newUser.balance,
-        email: newUser.email,
-        rating: newUser.rating,
-      },
-      CONSTANTS.JWT_SECRET,
-      { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME }
-    );
-    await userQueries.updateUser({ accessToken }, newUser.id);
-    res.send({ token: accessToken });
+    const tokenData = {
+      firstName: newUser.firstName,
+      userId: newUser.id,
+      role: newUser.role,
+      lastName: newUser.lastName,
+      avatar: newUser.avatar,
+      displayName: newUser.displayName,
+      balance: newUser.balance,
+      email: newUser.email,
+      rating: newUser.rating,
+    };
+    const refreshToken = await JWTService.createRefreshToken(tokenData);
+    const accessToken = await JWTService.createAccessToken(tokenData);
+    await userQueries.updateUser({ refreshToken }, newUser.id);
+    res.send({ tokenPair: { refreshToken, accessToken } });
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       next(new NotUniqueEmail());

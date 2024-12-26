@@ -43,7 +43,7 @@ module.exports = {
           allowNull: false,
           defaultValue: 0,
         },
-        accessToken: {
+        refreshToken: {
           type: Sequelize.TEXT,
           allowNull: true,
         },

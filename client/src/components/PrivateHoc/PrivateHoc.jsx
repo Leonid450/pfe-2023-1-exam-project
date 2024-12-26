@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getUser } from '../../store/slices/userSlice';
 import Spinner from '../Spinner/Spinner';
 
-const PrivateHoc = (Component, props) => {
+const PrivateHoc = (Component, contestProps) => {
   const Hoc = (props) => {
     useEffect(() => {
       if (!props.data) {
@@ -16,7 +16,11 @@ const PrivateHoc = (Component, props) => {
         {props.isFetching ? (
           <Spinner />
         ) : (
-          <Component history={props.history} match={props.match} {...props} />
+          <Component
+            history={props.history}
+            match={props.match}
+            {...contestProps}
+          />
         )}
       </>
     );
