@@ -1,3 +1,4 @@
+const CONSTANTS = require('../../constants');
 const fs = require('fs/promises');
 
 const cron = require('node-cron');
@@ -10,7 +11,7 @@ function logList() {
 
 async function logListCreator() {
   const allText = await fs.readFile(
-    `${__dirname}/../../../logs/currentDay.json`,
+    CONSTANTS.LOG_CURRENT_DAY_FILES_PATH,
     'utf-8'
   );
   const logsFull = JSON.parse(allText);
@@ -23,6 +24,6 @@ async function logListCreator() {
     `${__dirname}/../../../logs/${Date.now()}.json`,
     `${JSON.stringify(logsShort)}`
   );
-  await fs.writeFile(`${__dirname}/../../../logs/currentDay.json`, '[]');
+  await fs.writeFile(CONSTANTS.LOG_CURRENT_DAY_FILES_PATH, '[]');
 }
 module.exports = logList;

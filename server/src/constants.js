@@ -29,6 +29,12 @@ module.exports = {
   MODEL_FILES_PATH: path.resolve(__dirname, 'models'),
   SEEDERS_FILES_PATH: path.resolve(__dirname, 'seeders'),
   MIGRATIONS_FILES_PATH: path.resolve(__dirname, 'migrations'),
+  LOG_CURRENT_DAY_FILES_PATH: path.resolve(
+    __dirname,
+    '..',
+    'logs',
+    'currentDay.json'
+  ),
   SOCKET_CONNECTION: 'connection',
   SOCKET_SUBSCRIBE: 'subscribe',
   SOCKET_UNSUBSCRIBE: 'unsubscribe',

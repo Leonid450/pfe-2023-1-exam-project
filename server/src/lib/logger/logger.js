@@ -1,14 +1,15 @@
+const CONSTANTS = require('../../constants');
 const fs = require('fs/promises');
-const existsSync = require('node:fs');
+const { existsSync } = require('node:fs');
 
 async function logger(message, code, stack) {
   const log = { message: message, time: Date.now(), code: code, stack: stack };
-  if (!existsSync.existsSync(`${__dirname}/../../../logs/currentDay.json`)) {
-    await fs.appendFile(`${__dirname}/../../../logs/currentDay.json`, '[]');
+  if (!existsSync(CONSTANTS.LOG_CURRENT_DAY_FILES_PATH)) {
+    await fs.appendFile(CONSTANTS.LOG_CURRENT_DAY_FILES_PATH, '[]');
   }
 
   let oldText = await fs.readFile(
-    `${__dirname}/../../../logs/currentDay.json`,
+    CONSTANTS.LOG_CURRENT_DAY_FILES_PATH,
     'utf-8'
   );
   if (oldText.length < 2) {
@@ -18,7 +19,7 @@ async function logger(message, code, stack) {
   await oldArr.push(log);
 
   await fs.writeFile(
-    `${__dirname}/../../../logs/currentDay.json`,
+    CONSTANTS.LOG_CURRENT_DAY_FILES_PATH,
     `${JSON.stringify(oldArr)}`
   );
 }

@@ -27,7 +27,6 @@ function EventItems({ event, deleteEvent, eventRemind }) {
     deleteEvent(event.id);
   };
   let remind = eventRemind.includes(event);
-  console.log(remind);
   const [a, setA] = useState(1);
   const left = (a) => {
     a > 1 ? setA(a) : setA(1);
