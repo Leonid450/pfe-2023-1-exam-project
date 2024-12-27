@@ -3,25 +3,31 @@ import styles from './EventList.module.sass';
 import { connect } from 'react-redux';
 import EventTimer from '../eventTimer';
 import { deleteEvent } from '../../../store/slices/eventSlice';
+import cx from 'classnames';
 const { useState } = React;
 
 const EventList = ({ deleteEvent, events }) => {
-  const eventsSorted = events.toSorted((a, b) => {
-    if (a.dateN > b.dateN) return 1;
-    if (a.dateN < b.dateN) return -1;
-    return 0;
+  const eventRemind = events.filter((event) => {
+    const date = new Date(`${event.dateRemind}T${event.timeRemind}`);
+    if (Date.parse(date) <= Date.now()) return event;
   });
-
-  const eventItems = eventsSorted.map((event) => (
-    <EventItems key={event.id} event={event} deleteEvent={deleteEvent} />
+  const eventItems = events.map((event) => (
+    <EventItems
+      key={event.id}
+      event={event}
+      deleteEvent={deleteEvent}
+      eventRemind={eventRemind}
+    />
   ));
   return <ul className={styles.eventList}>{eventItems}</ul>;
 };
 
-function EventItems({ event, deleteEvent }) {
+function EventItems({ event, deleteEvent, eventRemind }) {
   const handleDeleteClick = () => {
     deleteEvent(event.id);
   };
+  let remind = eventRemind.includes(event);
+  console.log(remind);
   const [a, setA] = useState(1);
   const left = (a) => {
     a > 1 ? setA(a) : setA(1);
@@ -30,7 +36,10 @@ function EventItems({ event, deleteEvent }) {
   const s = `linear-gradient(90deg, rgba(21,236,170,0.648879620207458) ${a}%, rgba(218,218,218,1) ${a}%)`;
 
   return (
-    <li style={{ background: s }} className={styles.eventItem}>
+    <li
+      style={{ background: s }}
+      className={cx(remind ? styles.eventItemRemind : styles.eventItem)}
+    >
       <p className={styles.eventText}>{event.text}</p>
       <div className={styles.eventTime}>
         <EventTimer left={left} date={event.dateN} startDate={event.id} />
@@ -42,10 +51,7 @@ function EventItems({ event, deleteEvent }) {
   );
 }
 
-const mStP = (state) => ({
-  events: state.event.event,
-});
 const mDtp = (dispatch) => ({
   deleteEvent: (values) => dispatch(deleteEvent(values)),
 });
-export default connect(mStP, mDtp)(EventList);
+export default connect(null, mDtp)(EventList);

@@ -60,11 +60,14 @@ const Header = (props) => {
                   </Link>
                 </li>
               )}
-              <li>
-                <Link to="/events" style={{ textDecoration: 'none' }}>
-                  <span>Events</span>
-                </Link>
-              </li>
+              {props.data.role === CONSTANTS.CUSTOMER && (
+                <li>
+                  <Link to="/events" style={{ textDecoration: 'none' }}>
+                    <span>Events</span>
+                  </Link>
+                </li>
+              )}
+
               <li>
                 <Link to="/account" style={{ textDecoration: 'none' }}>
                   <span>My Account</span>
@@ -96,9 +99,11 @@ const Header = (props) => {
             className={styles.emailIcon}
             alt="email"
           />
-          <div>
-            <Reminder />
-          </div>
+          {props.data.role === CONSTANTS.CUSTOMER && (
+            <div>
+              <Reminder />
+            </div>
+          )}
         </>
       );
     }

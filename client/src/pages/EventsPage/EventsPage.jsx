@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import styles from './EventsPage.module.sass';
 import Spinner from '../../components/Spinner/Spinner';
+import { getEvents } from '../../store/slices/eventSlice';
 import EventForm from '../../components/EventComponents/EventForm/EventForm';
 import EventList from '../../components/EventComponents/EventList/EventList';
 import CONSTANTS from '../../constants';
 const Events = (props) => {
-  const { isFetching } = props;
+  const { isFetching, events, getEvents, role, countRemindEvents } = props;
+  if (role !== CONSTANTS.CUSTOMER) {
+    props.history.replace('/');
+  }
+  useEffect(() => {
+    getEvents();
+  }, [events.length, countRemindEvents]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleAddEvent = () => {
     setIsModalVisible(true);
@@ -34,7 +41,7 @@ const Events = (props) => {
                     />
                   </div>
                 </div>
-                <EventList />
+                <EventList events={events} />
               </div>
             </article>
             <aside>
@@ -61,9 +68,14 @@ const Events = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { isFetching } = state.userStore;
-  return { isFetching };
-};
+const mStP = (state) => ({
+  events: state.event.event,
+  countRemindEvents: state.event.countRemindEvents,
+  role: state.userStore.data.role,
+  isFetching: state.userStore.isFetching,
+});
+const mDtp = (dispatch) => ({
+  getEvents: (values) => dispatch(getEvents(values)),
+});
 
-export default connect(mapStateToProps, null)(Events);
+export default connect(mStP, mDtp)(Events);

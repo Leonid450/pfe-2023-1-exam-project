@@ -216,8 +216,20 @@ export default {
       )
       .required('required'),
   }),
-  EventSchema: yup.object({
+  EventSchema: yup.object().shape({
     text: yup.string().min(3).required('required'),
     date: yup.date().min(currentDay, 'Incorrect date').required('required'),
+    dateRemind: yup
+      .date()
+      .min(currentDay, 'Incorrect date')
+      .required('required')
+      .when('date', (date) => {
+        if (date) {
+          return yup
+            .date()
+            .max(date, "End Date must be after Event's Date")
+            .typeError('End Date is required');
+        }
+      }),
   }),
 };
