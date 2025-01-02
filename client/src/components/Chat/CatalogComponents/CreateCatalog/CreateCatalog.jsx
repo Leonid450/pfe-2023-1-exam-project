@@ -7,10 +7,11 @@ import { createCatalog } from '../../../../store/slices/chatSlice';
 import Schems from '../../../../utils/validators/validationSchems';
 
 const CreateCatalog = (props) => {
-  const click = (values) => {
+  const click = (values, formikBag) => {
     const { createCatalog } = props;
     const { addChatId } = props;
     createCatalog({ catalogName: values.catalogName, chatId: addChatId });
+    formikBag.resetForm();
   };
   return (
     <Formik

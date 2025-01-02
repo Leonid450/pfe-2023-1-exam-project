@@ -7,9 +7,6 @@ export const updateUser = (data) => http.put('users/updateUser', data);
 // --------------Contest/payment------
 export const updateContest = (data) =>
   http.put(`contests/${data.get('contestId')}`, data);
-export const setNewOffer = (data) => http.post('contests/setNewOffer', data);
-export const setOfferStatus = (data) =>
-  http.put('contests/setOfferStatus', data);
 export const downloadContestFile = (data) =>
   http.get(`contests/downloadFile/${data.fileName}`);
 export const dataForContest = (data) =>
@@ -44,8 +41,9 @@ export const getActiveContests = ({
       ownEntries,
     },
   });
-export const payMent = (data) => http.post('users/pay', data.formData);
-export const cashOut = (data) => http.post('users/cashout', data);
+// --------------Payment------
+export const payMent = (data) => http.post('cash/pay', data.formData);
+export const cashOut = (data) => http.post('cash/cashout', data);
 // --------------Chat/Catalog------
 export const getPreviewChat = () => http.get('chats/getPreview');
 export const getDialog = (data) =>
@@ -63,7 +61,9 @@ export const removeChatFromCatalog = (data) =>
   http.delete(`chats/removeChatFromCatalog/${data.chatId}/${data.catalogId}`);
 export const changeCatalogName = (data) =>
   http.put('chats/updateNameCatalog', data);
-// --------------Moderation------
+// --------------Offers/Moderation------
+export const setNewOffer = (data) => http.post('offers/setNewOffer', data);
+export const setOfferStatus = (data) => http.put('offers/setOfferStatus', data);
 export const setModerationStatusOfOffers = (data) =>
   http.post('offers/checked', data);
 export const getOffersForModeration = (data) =>

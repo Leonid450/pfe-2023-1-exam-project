@@ -9,13 +9,15 @@ module.exports.addMessage = async (req, res, next) => {
   participants.sort(
     (participant1, participant2) => participant1 - participant2
   );
+  let transaction;
   try {
+    transaction = await db.sequelize.transaction();
     let newChat = { dataValues: { id: req.body.chatId } };
     if (!req.body.chatId) {
-      newChat = await db.Conversation.create();
+      newChat = await db.Conversation.create(transaction);
       const participant1 = await db.User.findByPk(req.tokenData.userId);
       const participant2 = await db.User.findByPk(req.body.recipient);
-      await newChat.addUser([participant1, participant2]);
+      await newChat.addUser([participant1, participant2], transaction);
     }
 
     const chat = await db.Conversation.findOne({
@@ -31,8 +33,17 @@ module.exports.addMessage = async (req, res, next) => {
       ],
     });
 
-    const black = [];
+    const message = await db.Message.create(
+      {
+        userId: req.tokenData.userId,
+        body: req.body.messageBody,
+        conversationId: chat.dataValues.id,
+      },
+      transaction
+    );
+    transaction.commit();
 
+    const black = [];
     chat.dataValues.Users.forEach((user) => {
       black.push(user.dataValues.users_to_conversation.dataValues.blackList);
       chat.dataValues.blackList = black;
@@ -44,12 +55,6 @@ module.exports.addMessage = async (req, res, next) => {
           ...chat.dataValues,
         };
       }
-    });
-
-    const message = await db.Message.create({
-      userId: req.tokenData.userId,
-      body: req.body.messageBody,
-      conversationId: chat.dataValues.id,
     });
     message.dataValues.participants = participants;
 
@@ -89,6 +94,7 @@ module.exports.addMessage = async (req, res, next) => {
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
     });
   } catch (err) {
+    transaction.rollback();
     next(err);
   }
 };
@@ -240,10 +246,12 @@ module.exports.getPreview = async (req, res, next) => {
 };
 
 module.exports.blackList = async (req, res, next) => {
+  req.body.participants.sort(
+    (participant1, participant2) => participant1 - participant2
+  );
+  let transaction;
   try {
-    req.body.participants.sort(
-      (participant1, participant2) => participant1 - participant2
-    );
+    transaction = await db.sequelize.transaction();
 
     await db.Users_to_conversation.update(
       {
@@ -254,8 +262,10 @@ module.exports.blackList = async (req, res, next) => {
           conversationId: req.body.chatId,
           userId: req.tokenData.userId,
         },
-      }
+      },
+      transaction
     );
+    transaction.commit();
     const chatB = await db.Users_to_conversation.findAll({
       where: { conversationId: req.body.chatId },
       order: [['userId', 'asc']],
@@ -276,12 +286,15 @@ module.exports.blackList = async (req, res, next) => {
       .emitChangeBlockStatus(interlocutorId, changeBlackList);
     res.send(changeBlackList);
   } catch (err) {
+    transaction.rollback();
     next(err);
   }
 };
 
 module.exports.favoriteChat = async (req, res, next) => {
+  let transaction;
   try {
+    transaction = await db.sequelize.transaction();
     const chatF = await db.Users_to_conversation.update(
       {
         favoriteList: req.body.favoriteFlag,
@@ -292,119 +305,13 @@ module.exports.favoriteChat = async (req, res, next) => {
           userId: req.tokenData.userId,
         },
         returning: true,
-      }
+      },
+      transaction
     );
-
+    transaction.commit();
     res.send(chatF);
   } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.createCatalog = async (req, res, next) => {
-  try {
-    const catalog = await db.Catalog.create({
-      userId: req.tokenData.userId,
-      catalogName: req.body.catalogName,
-      conversationId: req.body.chatId,
-    });
-    const chat = await db.Conversation.findOne({
-      where: { id: req.body.chatId },
-    });
-    await chat.addCatalog(catalog);
-    const chatsInCatalog = await db.Catalog.findOne({
-      where: { id: catalog.dataValues.id },
-      include: [
-        {
-          model: db.Conversation,
-          attributes: ['id'],
-          through: {
-            attributes: [],
-          },
-        },
-      ],
-    });
-    res.send(chatsInCatalog);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.updateNameCatalog = async (req, res, next) => {
-  try {
-    const catalog = await db.Catalog.findByPk(req.body.catalogId);
-    const updateNameCatalog = await catalog.update({
-      catalogName: req.body.catalogName,
-    });
-
-    res.send(updateNameCatalog);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.addNewChatToCatalog = async (req, res, next) => {
-  try {
-    const chat = await db.Conversation.findByPk(req.body.chatId);
-    const catalog = await db.Catalog.findByPk(req.body.catalogId);
-
-    const addCatalog = await catalog.addConversation(chat);
-
-    res.send(addCatalog);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.removeChatFromCatalog = async (req, res, next) => {
-  try {
-    const chat = await db.Conversation.findByPk(req.params.chatId);
-    const catalog = await db.Catalog.findByPk(req.params.catalogId);
-
-    await catalog.removeConversation(chat);
-    const catalogReduced = await db.Catalog.findOne({
-      where: { id: req.params.catalogId },
-      include: [
-        {
-          model: db.Conversation,
-          attributes: ['id'],
-          through: {
-            attributes: [],
-          },
-        },
-      ],
-    });
-    res.send(catalogReduced);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.deleteCatalog = async (req, res, next) => {
-  try {
-    await db.Catalog.destroy({ where: { id: req.params.catalogId } });
-    res.send();
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.getCatalogs = async (req, res, next) => {
-  try {
-    const catalogs = await db.Catalog.findAll({
-      where: { userId: req.tokenData.userId },
-      include: [
-        {
-          model: db.Conversation,
-          attributes: ['id'],
-          through: {
-            attributes: [],
-          },
-        },
-      ],
-    });
-    res.send(catalogs);
-  } catch (err) {
+    transaction.rollback();
     next(err);
   }
 };

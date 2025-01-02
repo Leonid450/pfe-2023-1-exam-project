@@ -1,18 +1,18 @@
 const authRouter = require('express').Router();
-const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 const validators = require('../middlewares/validators');
 const checkToken = require('../middlewares/checkToken');
 authRouter.post(
   '/registration',
   validators.validateRegistrationData,
-  userController.registration
+  authController.registration
 );
 
-authRouter.post('/login', validators.validateLogin, userController.login);
+authRouter.post('/login', validators.validateLogin, authController.login);
 
 authRouter.post(
   '/refresh',
   checkToken.checkRefreshToken,
-  userController.refresh
+  authController.refresh
 );
 module.exports = authRouter;
