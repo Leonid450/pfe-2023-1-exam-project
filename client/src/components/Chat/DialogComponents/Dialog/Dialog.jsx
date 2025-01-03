@@ -12,7 +12,9 @@ import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
 
 const Dialog = (props) => {
   const messagesEnd = useRef(null);
-  const { chatData, userId, messages } = props;
+  const { userId, messages } = props;
+  let chatData = props.chatData || { blackList: [] };
+
   useEffect(() => {
     if (chatData.id)
       props.getDialog({

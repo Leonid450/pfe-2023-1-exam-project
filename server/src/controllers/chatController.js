@@ -14,7 +14,7 @@ module.exports.addMessage = async (req, res, next) => {
     transaction = await db.sequelize.transaction();
     let newChat = { dataValues: { id: req.body.chatId } };
     if (!req.body.chatId) {
-      newChat = await db.Conversation.create(transaction);
+      newChat = await db.Conversation.create();
       const participant1 = await db.User.findByPk(req.tokenData.userId);
       const participant2 = await db.User.findByPk(req.body.recipient);
       await newChat.addUser([participant1, participant2], transaction);

@@ -28,6 +28,12 @@ const types = [
 ];
 
 const CreatorDashboard = (props) => {
+  useEffect(() => {
+    props.getDataForContest();
+    if (parseUrlForParams(props.location.search) && !props.contests.length)
+      getContests(props.creatorFilter);
+  }, [props.location.search]);
+
   const renderSelectType = () => {
     const array = [];
     const { creatorFilter } = props;
@@ -88,15 +94,9 @@ const CreatorDashboard = (props) => {
     );
   };
 
-  useEffect(() => {
-    props.getDataForContest();
-    if (parseUrlForParams(props.location.search) && !props.contests.length)
-      getContests(props.creatorFilter);
-  }, [props.location.search]);
-
   const getContests = (filter) => {
     props.getContests({
-      limit: 8,
+      limit: 10,
       offset: 0,
       ...filter,
     });

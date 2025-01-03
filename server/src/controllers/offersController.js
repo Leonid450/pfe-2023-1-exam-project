@@ -4,6 +4,7 @@ const userQueries = require('./queries/userQueries');
 const contestQueries = require('./queries/contestQueries');
 const controller = require('../socketInit');
 module.exports.setNewOffer = async (req, res, next) => {
+  let transaction;
   const obj = {};
   if (req.body.contestType === CONSTANTS.LOGO_CONTEST) {
     obj.fileName = req.file.filename;
@@ -14,16 +15,19 @@ module.exports.setNewOffer = async (req, res, next) => {
   obj.userId = req.tokenData.userId;
   obj.contestId = req.body.contestId;
   try {
-    const result = await contestQueries.createOffer(obj);
+    transaction = await db.sequelize.transaction();
+    const result = await contestQueries.createOffer(obj, transaction);
     delete result.contestId;
     delete result.userId;
     controller
       .getNotificationController()
       .emitEntryCreated(req.body.customerId);
     const User = Object.assign({}, req.tokenData, { id: req.tokenData.userId });
+    transaction.commit();
     res.send(Object.assign({}, result, { User }));
   } catch (e) {
-    return next(e);
+    transaction.rollback();
+    next(e);
   }
 };
 
@@ -84,7 +88,6 @@ const resolveOffer = async (
     },
     transaction
   );
-  transaction.commit();
   const arrayRoomsId = [];
   updatedOffers.forEach((offer) => {
     if (
@@ -94,13 +97,15 @@ const resolveOffer = async (
       arrayRoomsId.push(offer.userId);
     }
   });
-  controller
-    .getNotificationController()
-    .emitChangeOfferStatus(
-      arrayRoomsId,
-      'Someone of yours offers was rejected',
-      contestId
-    );
+  if (arrayRoomsId.length > 0) {
+    controller
+      .getNotificationController()
+      .emitChangeOfferStatus(
+        arrayRoomsId,
+        'Someone of yours offers was rejected',
+        contestId
+      );
+  }
   controller
     .getNotificationController()
     .emitChangeOfferStatus(creatorId, 'Someone of your offers WIN', contestId);
