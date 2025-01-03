@@ -73,11 +73,11 @@ const Brief = (props) => {
     clearContestUpdationStore,
   } = props;
   const { error } = props.contestUpdationStore;
-  const { id } = props.userStore.data;
+  const { userId } = props.userStore.data;
   if (!isEditContest) {
     return (
       <ContestInfo
-        userId={id}
+        userId={userId}
         contestData={contestData}
         changeEditContest={changeEditContest}
         role={role}

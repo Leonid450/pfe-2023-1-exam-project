@@ -11,10 +11,9 @@ const EventForm = ({ createNewEvent, closeModal }) => {
     const dateN = new Date(`${date}T${time}`);
     const newValues = { ...rest, id: Date.now(), dateN };
     createNewEvent(newValues);
-
+    closeModal();
     formikBag.resetForm();
   };
-
   return (
     <>
       <div onClick={closeModal} className={styles.background}></div>
@@ -24,8 +23,8 @@ const EventForm = ({ createNewEvent, closeModal }) => {
           initialValues={{
             text: '',
             date: '',
-            time: '',
-            timeRemind: '',
+            time: '00:00',
+            timeRemind: '00:00',
             dateRemind: '',
           }}
           onSubmit={handleSubmit}
@@ -123,10 +122,7 @@ const EventForm = ({ createNewEvent, closeModal }) => {
               />
             </div>
             <div>
-              <button
-                type="submit"
-                className={styles.submitContainer}
-              >
+              <button type="submit" className={styles.submitContainer}>
                 Create
               </button>
               <button onClick={closeModal} className={styles.closeContainer}>

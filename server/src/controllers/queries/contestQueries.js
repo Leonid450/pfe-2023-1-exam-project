@@ -1,9 +1,13 @@
-const bd = require('../../models');
+const CONSTANTS = require('../../constants');
+const bd = require(CONSTANTS.MODEL_FILES_PATH);
 const ServerError = require('../../errors/ServerError');
 
 module.exports.updateContest = async (data, predicate, transaction) => {
-  const [updatedCount, [updatedContest]] = await bd.Contest.update(data,
-    { where: predicate, returning: true, transaction });
+  const [updatedCount, [updatedContest]] = await bd.Contest.update(data, {
+    where: predicate,
+    returning: true,
+    transaction,
+  });
   if (updatedCount !== 1) {
     throw new ServerError('cannot update Contest');
   } else {
@@ -12,18 +16,24 @@ module.exports.updateContest = async (data, predicate, transaction) => {
 };
 
 module.exports.updateContestStatus = async (data, predicate, transaction) => {
-  const updateResult = await bd.Contest.update(data,
-    { where: predicate, returning: true, transaction });
-  if (updateResult[ 0 ] < 1) {
+  const updateResult = await bd.Contest.update(data, {
+    where: predicate,
+    returning: true,
+    transaction,
+  });
+  if (updateResult[0] < 1) {
     throw new ServerError('cannot update Contest');
   } else {
-    return updateResult[ 1 ][ 0 ].dataValues;
+    return updateResult[1][0].dataValues;
   }
 };
 
 module.exports.updateOffer = async (data, predicate, transaction) => {
-  const [updatedCount, [updatedOffer]] = await bd.Offer.update(data,
-    { where: predicate, returning: true, transaction });
+  const [updatedCount, [updatedOffer]] = await bd.Offer.update(data, {
+    where: predicate,
+    returning: true,
+    transaction,
+  });
   if (updatedCount !== 1) {
     throw new ServerError('cannot update offer!');
   } else {
@@ -32,17 +42,20 @@ module.exports.updateOffer = async (data, predicate, transaction) => {
 };
 
 module.exports.updateOfferStatus = async (data, predicate, transaction) => {
-  const result = await bd.Offer.update(data,
-    { where: predicate, returning: true, transaction });
-  if (result[ 0 ] < 1) {
+  const result = await bd.Offer.update(data, {
+    where: predicate,
+    returning: true,
+    transaction,
+  });
+  if (result[0] < 1) {
     throw new ServerError('cannot update offer!');
   } else {
-    return result[ 1 ];
+    return result[1];
   }
 };
 
-module.exports.createOffer = async (data) => {
-  const result = await bd.Offer.create(data);
+module.exports.createOffer = async (data,transaction) => {
+  const result = await bd.Offer.create(data,{transaction});
   if (!result) {
     throw new ServerError('cannot create new Offer');
   } else {

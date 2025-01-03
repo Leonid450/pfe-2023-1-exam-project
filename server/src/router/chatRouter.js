@@ -1,25 +1,29 @@
 const chatRouter = require('express').Router();
 const chatController = require('../controllers/chatController');
+const catalogController = require('../controllers/catalogController');
 
 chatRouter.post('/newMessage', chatController.addMessage);
 
-chatRouter.post('/getChat', chatController.getChat);
+chatRouter.get('/getChat', chatController.getChat);
 
-chatRouter.post('/getPreview', chatController.getPreview);
+chatRouter.get('/getPreview', chatController.getPreview);
 
-chatRouter.post('/blackList', chatController.blackList);
+chatRouter.put('/blackList', chatController.blackList);
 
-chatRouter.post('/favorite', chatController.favoriteChat);
+chatRouter.put('/favorite', chatController.favoriteChat);
 
-chatRouter.post('/createCatalog', chatController.createCatalog);
+chatRouter.post('/createCatalog', catalogController.createCatalog);
 
-chatRouter.post('/updateNameCatalog', chatController.updateNameCatalog);
+chatRouter.put('/updateNameCatalog', catalogController.updateNameCatalog);
 
-chatRouter.post('/addNewChatToCatalog', chatController.addNewChatToCatalog);
+chatRouter.post('/addNewChatToCatalog', catalogController.addNewChatToCatalog);
 
-chatRouter.post('/removeChatFromCatalog', chatController.removeChatFromCatalog);
+chatRouter.delete(
+  '/removeChatFromCatalog/:chatId/:catalogId',
+  catalogController.removeChatFromCatalog
+);
 
-chatRouter.post('/deleteCatalog', chatController.deleteCatalog);
+chatRouter.delete('/deleteCatalog/:catalogId', catalogController.deleteCatalog);
 
-chatRouter.post('/getCatalogs', chatController.getCatalogs);
+chatRouter.get('/getCatalogs', catalogController.getCatalogs);
 module.exports = chatRouter;

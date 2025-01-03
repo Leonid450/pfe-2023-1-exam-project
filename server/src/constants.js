@@ -1,8 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  JWT_SECRET: 'asdasdasd4as5d4as8d7a8sd4as65d4a8sd7asd4as56d4',
-  ACCESS_TOKEN_TIME: 60 * 60,
+  ACCESS_TOKEN_SECRET: 'asdasdasd4as5d4as8d7a8sd4as65d4a8sd7asd4as56d4',
+  ACCESS_TOKEN_EXPIRES_IN: '60s',
+  REFRESH_TOKEN_SECRET: 'asfasfsfasf164ds64hfm8abjbgfagblkj564a68615as6',
+  REFRESH_TOKEN_EXPIRES_IN: '7d',
   SALT_ROUNDS: 5,
   SQUADHELP_BANK_NUMBER: '4564654564564564',
   SQUADHELP_BANK_NAME: 'SquadHelp',
@@ -24,6 +26,15 @@ module.exports = {
   OFFER_STATUS_WON: 'won',
   DEV_FILES_PATH: path.resolve(__dirname, '..', 'public'),
   PROD_FILES_PATH: '/var/www/html',
+  MODEL_FILES_PATH: path.resolve(__dirname, 'models'),
+  SEEDERS_FILES_PATH: path.resolve(__dirname, 'seeders'),
+  MIGRATIONS_FILES_PATH: path.resolve(__dirname, 'migrations'),
+  LOG_CURRENT_DAY_FILES_PATH: path.resolve(
+    __dirname,
+    '..',
+    'logs',
+    'currentDay.json'
+  ),
   SOCKET_CONNECTION: 'connection',
   SOCKET_SUBSCRIBE: 'subscribe',
   SOCKET_UNSUBSCRIBE: 'unsubscribe',

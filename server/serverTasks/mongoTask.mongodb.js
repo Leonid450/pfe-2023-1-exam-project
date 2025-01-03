@@ -1,16 +1,9 @@
+db = new Mongo().getDB('examChat');
 db.messages.aggregate([
   {
-    $match: { body: { $regex: '.*паровоз.*' } },
+    $match: { body: { $regex: '.*паровоз.*', $options: 'i' } },
   },
   {
-    $unset: ['sender', 'conversation', 'createdAt', 'updatedAt', '__v'],
-  },
-  {
-    $group: {
-      _id: 'null',
-      countOfMessage: {
-        $count: {},
-      },
-    },
+    $count: 'countWord',
   },
 ]);

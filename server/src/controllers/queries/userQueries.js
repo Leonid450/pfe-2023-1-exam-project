@@ -1,10 +1,14 @@
-const bd = require('../../models');
+const CONSTANTS = require('../../constants');
+const bd = require(CONSTANTS.MODEL_FILES_PATH);
 const NotFound = require('../../errors/UserNotFoundError');
 const ServerError = require('../../errors/ServerError');
 
 module.exports.updateUser = async (data, userId, transaction) => {
-  const [updatedCount, [updatedUser]] = await bd.User.update(data,
-    { where: { id: userId }, returning: true, transaction });
+  const [updatedCount, [updatedUser]] = await bd.User.update(data, {
+    where: { id: userId },
+    returning: true,
+    transaction,
+  });
   if (updatedCount !== 1) {
     throw new ServerError('cannot update user');
   }

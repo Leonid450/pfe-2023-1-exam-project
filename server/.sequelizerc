@@ -1,8 +1,10 @@
 const path = require('path');
+const env = process.env.NODE_ENV || 'development';
+const CONSTANTS = require('./src/constants');
 
 module.exports = {
-  'config': path.resolve('./src/config', 'postgresConfig.json'),
-  'models-path': path.resolve('./src/models'),
-  'seeders-path': path.resolve('./src/seeders'),
-  'migrations-path': path.resolve('./src/migrations'),
+  config: path.resolve(__dirname, 'config', 'postgresConfig', env + '.json'),
+  'models-path': CONSTANTS.MODEL_FILES_PATH,
+  'seeders-path': CONSTANTS.SEEDERS_FILES_PATH,
+  'migrations-path': CONSTANTS.MIGRATIONS_FILES_PATH,
 };

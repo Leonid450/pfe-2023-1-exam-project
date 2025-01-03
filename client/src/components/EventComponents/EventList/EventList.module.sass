@@ -11,6 +11,7 @@
   align-items: end
 .eventDelete
   color: red
+  margin-top: 20px 
   border: 1px red  solid
   border-radius: 5px
 
@@ -24,8 +25,22 @@
   border-radius: 5px  
   box-shadow: 0 16px 32px rgb(0 0 0 / .04)
   
+.eventItemRemind
+  display: flex
+  justify-content: space-between
+  padding: 20px 
+  margin: 20px 0
+  border-radius: 5px  
+  box-shadow: 0 16px 32px rgb(0 0 0 / .04)
+  border: solid red
+  animation-duration: 2s
+  animation-name: animate
+  animation-iteration-count: infinite
+
+@keyframes animate 
+  from
+    border: solid rgb(0 0 0 / .04)
+  to
+    border: solid red
   
 
-
-    
-  

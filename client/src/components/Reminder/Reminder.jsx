@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './Reminder.module.sass';
 import CONSTANTS from '../../constants';
+import { countRemindEvents, getEvents } from '../../store/slices/eventSlice';
 const { useState, useEffect } = React;
 
-const Reminder = ({ events }) => {
+const Reminder = ({ events, countRemindEvents, getEvents }) => {
   const [tick, setTick] = useState(false);
   const eventRemind = events.map((event) => {
     const date = new Date(`${event.dateRemind}T${event.timeRemind}`);
@@ -14,7 +15,10 @@ const Reminder = ({ events }) => {
   });
 
   const sum = eventRemind.reduce((acc, e) => acc + e, 0);
-
+  useEffect(() => {
+    getEvents();
+    countRemindEvents(sum);
+  }, [sum]);
   useEffect(() => {
     const timerID = setInterval(() => setTick(!tick), 1000);
     return () => clearInterval(timerID);
@@ -35,5 +39,9 @@ const Reminder = ({ events }) => {
 const mStP = (state) => ({
   events: state.event.event,
 });
+const mDtp = (dispatch) => ({
+  countRemindEvents: (values) => dispatch(countRemindEvents(values)),
+  getEvents: (values) => dispatch(getEvents(values)),
+});
 
-export default connect(mStP, null)(Reminder);
+export default connect(mStP, mDtp)(Reminder);

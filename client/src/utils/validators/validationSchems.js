@@ -199,12 +199,8 @@ export default {
   MessageSchema: yup.object({
     message: yup
       .string()
-      .test(
-        'test-message',
-        'required',
-        (value) => value && value.trim().length >= 1
-      )
-      .required('required'),
+      .test('test-message', '', (value) => value && value.trim().length >= 1)
+      .required(''),
   }),
   CatalogSchema: yup.object({
     catalogName: yup
@@ -216,8 +212,19 @@ export default {
       )
       .required('required'),
   }),
-  EventSchema: yup.object({
+  EventSchema: yup.object().shape({
     text: yup.string().min(3).required('required'),
     date: yup.date().min(currentDay, 'Incorrect date').required('required'),
+    dateRemind: yup
+      .date()
+      .required('required')
+      .when('date', (date) => {
+        if (date) {
+          return yup
+            .date()
+            .min(currentDay, 'Incorrect date')
+            .max(date, "Remind Date must be before Event's Date");
+        }
+      }),
   }),
 };

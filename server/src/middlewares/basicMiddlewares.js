@@ -1,8 +1,7 @@
-const bd = require('../models');
-const NotFound = require('../errors/UserNotFoundError');
+const CONSTANTS = require('../constants');
+const bd = require(CONSTANTS.MODEL_FILES_PATH);
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
-const CONSTANTS = require('../constants');
 
 module.exports.parseBody = (req, res, next) => {
   req.body.contests = JSON.parse(req.body.contests);
